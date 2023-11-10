@@ -1,8 +1,6 @@
 '''classe responsavel por abstrair os nodos e oferecer metodos de arvore '''
-from TreeLib import Tree
 from Edge import Edge
-
-from TreeLib import Node
+from src.TreeLib.Tree import Tree
 
 
 class Graph:
@@ -27,7 +25,7 @@ class Graph:
                 edge.weight)
 
         source.link(destination)
-        self.tree.insert(source)
 
     def print_graph(self):
-        raise NotImplementedError
+        result = self.tree.to_string()
+        print(result)

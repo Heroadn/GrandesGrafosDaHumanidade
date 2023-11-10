@@ -11,4 +11,5 @@ if __name__ == "__main__":
     graph.add_edge(edge2)
     graph.add_edge(edge3)
 
+    print("xD")
     graph.print_graph()

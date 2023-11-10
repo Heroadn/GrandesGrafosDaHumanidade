@@ -29,5 +29,11 @@ class Node:
 
         return None
 
+    # TODO: better print
     def to_string(self):
-        print("TESTE: ", self.index)
+        result = str()
+        for parent in self.parents:
+            result += ("Parent: " + parent + "\n")
+        for child in self.children:
+            result += ("Child: " + child + "\n")
+        result += ("Node: " + self.value.to_string() + "\n")

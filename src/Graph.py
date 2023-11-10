@@ -12,7 +12,7 @@ class Graph:
     def add_edge(self, edge: Edge):
         source = self.tree.search(edge.source_id)
         destination = self.tree.search(edge.destination_id)
-        isDeadEnd = edge.destination_id is None
+        is_dead_end = edge.destination_id is None
 
         if source is None:
             source = self.tree.create_node(
@@ -21,7 +21,7 @@ class Graph:
 
         #if node destination do not exists,
         #create a destination if is not a dead end
-        if (destination is None and not isDeadEnd):
+        if (destination is None and not is_dead_end):
             destination = self.tree.create_node(
                 edge.destination_id,
                 edge.weight)

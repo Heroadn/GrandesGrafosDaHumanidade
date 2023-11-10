@@ -69,7 +69,8 @@ class Graph:
 
         path.insert(0, start_vertex)
 
+        print("#"*55)
         print(f"Shortest path from vertex {start_vertex} to vertex {end_vertex}: {' -> '.join(path)}")
         print("#"*55)
         print(f"Shortest distance from vertex {start_vertex} to vertex {end_vertex}: {distance[end_vertex]}")
-
+        print("#"*55)

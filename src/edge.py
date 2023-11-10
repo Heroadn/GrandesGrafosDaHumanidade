@@ -1,4 +1,4 @@
-'''classe responsavel por representar o conteudo de um Edge '''
+'''Classe responsável por representar o conteudo de um Edge '''
 
 
 class Edge:

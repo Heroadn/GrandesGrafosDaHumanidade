@@ -1,6 +1,6 @@
 '''classe responsavel por abstrair os nodos e oferecer metodos de arvore indexada'''
 from typing import Optional
-from src.TreeLib.Node import Node
+from src.treelib.node import Node
 
 
 class Tree:

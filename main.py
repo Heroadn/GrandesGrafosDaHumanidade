@@ -16,4 +16,4 @@ if __name__ == "__main__":
     graph.print_graph()
     graph.dijkstra("cidade_a", "cidade_d")
 
-    graph.dijkstra("cidade_a", "cidade_b")
+    graph.dijkstra("cidade_a", "cidade_e")

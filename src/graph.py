@@ -27,7 +27,7 @@ class Graph:
         i = 1
         for k in self.adjacency_list.keys():
             for edge in self.adjacency_list[k]:
-                print(f"vertex-{i} ({edge.source_id}) is connected to {edge.destination_id} with weight {edge.weight}")
+                print(f"vertex-{i} {edge.to_string()}")
             i+=1
 
 

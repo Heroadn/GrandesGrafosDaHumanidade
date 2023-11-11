@@ -2,6 +2,7 @@ import csv
 
 from src.edge import Edge
 from src.graph import Graph
+from src.Trajeto import Trajeto
 
 
 def csv_to_graph(csv_file_path: str) -> Graph:
@@ -23,6 +24,8 @@ if __name__ == "__main__":
 
     graph.print_graph()
 
-    graph.dijkstra("cidade_a", "cidade_d")
-    graph.dijkstra("cidade_a", "cidade_f")
-    graph.dijkstra("cidade_f", "cidade_a")
+    value = graph.dijkstra("cidade_a", "cidade_d")
+    value = graph.dijkstra("cidade_a", "cidade_f")
+    value = graph.dijkstra("cidade_f", "cidade_a")
+    print(value.paths)
+    print(value.distance)

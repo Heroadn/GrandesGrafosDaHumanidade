@@ -1,7 +1,9 @@
 '''classe responsavel por abstrair os nodos e oferecer metodos de arvore '''
 
 import heapq
+from functools import reduce
 
+from src.Trajeto import Trajeto
 from src.edge import Edge
 
 
@@ -31,7 +33,7 @@ class Graph:
             i+=1
 
 
-    def dijkstra(self, start_vertex, end_vertex):
+    def dijkstra(self, start_vertex, end_vertex) -> Trajeto:
         priority_queue = [(0, start_vertex)]
         visited = {}
         distance = {}
@@ -62,8 +64,14 @@ class Graph:
         for k in self.adjacency_list.keys():
             print(f"Shortest distance from vertex {start_vertex} to vertex {k}: {distance[k]}")
 
+
         print("#"*55)
         self.print_shortest_path(start_vertex, end_vertex, distance, predecessor)
+
+        #adding all distances returnig shortest path
+        total = reduce(lambda a, b: a + b, distance.values())
+        paths = distance
+        return Trajeto(paths, total)
 
 
     def print_along_with_dashes(self, number_of_dashes: int, content: str):
@@ -85,7 +93,13 @@ class Graph:
         path.insert(0, start_vertex)
 
         if end_vertex in distance and distance[end_vertex] != float('inf'):
-            self.print_along_with_dashes(55, f"Shortest path from vertex {start_vertex} to vertex {end_vertex}: {' -> '.join(path)}")
-            self.print_along_with_dashes(55, f"Shortest distance from vertex {start_vertex} to vertex {end_vertex}: {distance[end_vertex]}")
+            self.print_along_with_dashes(
+                55,
+                f"Shortest path from vertex {start_vertex} to vertex {end_vertex}: {' -> '.join(path)}")
+            self.print_along_with_dashes(
+                55,
+                f"Shortest distance from vertex {start_vertex} to vertex {end_vertex}: {distance[end_vertex]}")
         else:
-            self.print_along_with_dashes(55, f"Couldn't find a path from {start_vertex} to {end_vertex}!")
+            self.print_along_with_dashes(
+                55,
+                f"Couldn't find a path from {start_vertex} to {end_vertex}!")

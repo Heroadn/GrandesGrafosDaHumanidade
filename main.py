@@ -2,7 +2,7 @@ import csv
 
 from src.edge import Edge
 from src.graph import Graph
-from src.Trajeto import Trajeto
+from src.trajeto import Trajeto
 
 
 def csv_to_graph(csv_file_path: str) -> Graph:

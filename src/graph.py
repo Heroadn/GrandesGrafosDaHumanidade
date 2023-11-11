@@ -3,7 +3,7 @@
 import heapq
 from functools import reduce
 
-from src.Trajeto import Trajeto
+from src.trajeto import Trajeto
 from src.edge import Edge
 
 

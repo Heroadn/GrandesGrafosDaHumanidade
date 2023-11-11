@@ -32,7 +32,7 @@ class Graph:
 
 
     def dijkstra(self, start_vertex, end_vertex):
-        priority_queue = [start_vertex]
+        priority_queue = [(0, start_vertex)]
         visited = {}
         distance = {}
         predecessor = {}  # To store the predecessor of each vertex in the shortest path
@@ -43,7 +43,7 @@ class Graph:
         distance[start_vertex] = 0
 
         while priority_queue:
-            current_vertex = heapq.heappop(priority_queue)
+            current_distance, current_vertex = heapq.heappop(priority_queue)
 
             if current_vertex in visited:
                 continue
@@ -51,12 +51,12 @@ class Graph:
             visited[current_vertex] = True
 
             for edge in self.adjacency_list[current_vertex]:
-                new_dist = distance[current_vertex] + edge.weight
+                new_distance = current_distance + edge.weight
 
-                if new_dist < distance[edge.destination_id]:
-                    distance[edge.destination_id] = new_dist
+                if new_distance < distance[edge.destination_id]:
+                    distance[edge.destination_id] = new_distance
                     predecessor[edge.destination_id] = current_vertex  # Update predecessor
-                    heapq.heappush(priority_queue, edge.destination_id)
+                    heapq.heappush(priority_queue, (new_distance, edge.destination_id))
 
         #Prints the shortest distance from the start vertex to each vertex
         for k in self.adjacency_list.keys():

@@ -24,8 +24,10 @@ if __name__ == "__main__":
 
     graph.print_graph()
 
-    value = graph.dijkstra("cidade_a", "cidade_d")
-    value = graph.dijkstra("cidade_a", "cidade_f")
+    #graph.dijkstra("cidade_a", "cidade_d")
+    #graph.dijkstra("cidade_a", "cidade_f")
     value = graph.dijkstra("cidade_f", "cidade_a")
-    print(value.paths)
-    print(value.distance)
+
+    if value:
+        print(value.paths)
+        print(value.distance)

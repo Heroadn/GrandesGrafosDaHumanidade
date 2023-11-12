@@ -52,13 +52,14 @@ class Graph:
 
             visited[current_vertex] = True
 
-            for edge in self.adjacency_list[current_vertex]:
-                new_distance = current_distance + edge.weight
+            if current_vertex in self.adjacency_list:
+                for edge in self.adjacency_list[current_vertex]:
+                    new_distance = current_distance + edge.weight
 
-                if new_distance < distance[edge.destination_id]:
-                    distance[edge.destination_id] = new_distance
-                    predecessor[edge.destination_id] = current_vertex  # Update predecessor
-                    heapq.heappush(priority_queue, (new_distance, edge.destination_id))
+                    if new_distance < distance[edge.destination_id]:
+                        distance[edge.destination_id] = new_distance
+                        predecessor[edge.destination_id] = current_vertex  # Update predecessor
+                        heapq.heappush(priority_queue, (new_distance, edge.destination_id))
 
         #Prints the shortest distance from the start vertex to each vertex
         for k in self.adjacency_list.keys():
@@ -104,7 +105,6 @@ class Graph:
 
         if end_vertex in distance and distance[end_vertex] != float('inf'):
             shortest_distance = distance[end_vertex]
-            path_to_destination = path
             return Trajeto(path, shortest_distance)
         else:
             return None

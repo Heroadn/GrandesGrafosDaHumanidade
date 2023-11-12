@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "ec77855f-31b2-4d94-b60a-cff2948400a2",
+		"name": "graphs_for_a3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27670126"
+	},
+	"item": [
+		{
+			"name": "get_shortest_path",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/graph/shortest_path/cidade_f/cidade_a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"graph",
+						"shortest_path",
+						"cidade_f",
+						"cidade_a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "print_graph",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/graph/print",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"graph",
+						"print"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

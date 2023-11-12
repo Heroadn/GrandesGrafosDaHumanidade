@@ -6,10 +6,13 @@ from flask import current_app, jsonify
 def get_shortest_path(point_a, point_b):
     shortest_path_obj = current_app.main_graph.dijkstra(point_a, point_b)
 
-    return jsonify({
-        "shortest_path":shortest_path_obj.paths,
-        "shortest_distance":shortest_path_obj.distance
-        })
+    if shortest_path_obj:
+        return jsonify({
+            "shortest_path":shortest_path_obj.paths,
+            "shortest_distance":shortest_path_obj.distance
+            })
+    else:
+        return jsonify({"msg":"Couldn't find a path from {point_a} to {point_b}"}), 404
 
 
 @main_bp.route('/graph/print', methods=['GET'])

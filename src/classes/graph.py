@@ -3,8 +3,8 @@
 import heapq
 from functools import reduce
 
-from src.trajeto import Trajeto
-from src.edge import Edge
+from src.classes.trajeto import Trajeto
+from src.classes.edge import Edge
 
 
 class Graph:

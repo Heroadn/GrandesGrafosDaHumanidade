@@ -1,4 +1,4 @@
-from src.edge import Edge
+from src.classes.edge import Edge
 
 
 class Trajeto:

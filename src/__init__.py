@@ -4,8 +4,8 @@ import csv
 from flask import Flask, current_app
 
 from src.controller import main_bp
-from src.edge import Edge
-from src.graph import Graph
+from src.classes.edge import Edge
+from src.classes.graph import Graph
 
 def csv_to_graph(csv_file_path: str) -> Graph:
     graph = Graph()

@@ -12,7 +12,7 @@ def get_shortest_path(point_a, point_b):
             "shortest_distance":shortest_path_obj.distance
             })
     else:
-        return jsonify({"msg":"Couldn't find a path from {point_a} to {point_b}"}), 404
+        return jsonify({"msg":f"Couldn't find a path from {point_a} to {point_b}"}), 404
 
 
 @main_bp.route('/graph/print', methods=['GET'])

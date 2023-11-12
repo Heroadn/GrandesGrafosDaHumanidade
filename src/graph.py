@@ -27,10 +27,15 @@ class Graph:
 
     def print_graph(self):
         i = 1
+        text = ""
         for k in self.adjacency_list.keys():
             for edge in self.adjacency_list[k]:
-                print(f"vertex-{i} {edge.to_string()}")
+                text+=f"vertex-{i} {edge.to_string()}\n"
             i+=1
+
+        print(text)
+
+        return text
 
 
     def dijkstra(self, start_vertex, end_vertex) -> Trajeto:

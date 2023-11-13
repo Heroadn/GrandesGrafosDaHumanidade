@@ -4,4 +4,4 @@
 ## Usage
 
 - On the project directory, run ```python3 main.py```
-- The application will be running on ```http://localhost:500```
+- The application will be running on ```http://localhost:5000```

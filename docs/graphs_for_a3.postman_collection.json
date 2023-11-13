@@ -7,86 +7,116 @@
 	},
 	"item": [
 		{
-			"name": "get_shortest_path",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/graph/shortest_path/cidade_f/cidade_a",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"graph",
-						"shortest_path",
-						"cidade_f",
-						"cidade_a"
-					]
+			"name": "graph",
+			"item": [
+				{
+					"name": "get_shortest_path",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/graph/shortest_path/cidade_f/cidade_a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"graph",
+								"shortest_path",
+								"cidade_f",
+								"cidade_a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_nodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/graph/nodes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"graph",
+								"nodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/graph/content",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"graph",
+								"content"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "print_graph",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/graph/print",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"graph",
+								"print"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "get_nodes",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/graph/nodes",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"graph",
-						"nodes"
-					]
+			"name": "info",
+			"item": [
+				{
+					"name": "get_vehicles_info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/info/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"info",
+								"vehicles"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "get_content",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/graph/content",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"graph",
-						"content"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "print_graph",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/graph/print",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"graph",
-						"print"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	]
 }

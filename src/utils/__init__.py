@@ -1,4 +1,5 @@
 import csv
+import json
 
 from src.classes.edge import Edge
 from src.classes.graph import Graph
@@ -14,3 +15,12 @@ def csv_to_graph(csv_file_path: str) -> Graph:
                     graph.add_edge(Edge(row[0], row[1], int(row[2])))
 
     return graph
+
+
+def json_file_to_dict(json_file_path: str) -> Graph:
+    content = None
+
+    with open(json_file_path, newline='') as json_file:
+        content = json.load(json_file)
+
+    return content

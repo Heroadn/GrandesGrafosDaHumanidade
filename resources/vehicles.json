@@ -1,0 +1,7 @@
+{
+    "motorcycle":{"kilometer_per_liter":20, "speed_in_km_h":80, "fuel_type":"Gasoline"},
+    "car":{"kilometer_per_liter":15, "speed_in_km_h":100, "fuel_type":"Gasoline"},
+    "minibus":{"kilometers_per_liter":10, "speed_in_km_h":100, "fuel_type":"Diesel"},
+    "bus":{"kilometers_per_liter":7, "speed_in_km_h":90, "fuel_type":"Diesel"},
+    "truck":{"kilometers_per_liter":3, "speed_in_km_h":80, "fuel_type":"Diesel"}
+}

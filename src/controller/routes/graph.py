@@ -19,3 +19,15 @@ def get_shortest_path(point_a, point_b):
 def print_graph():
     graph_described = current_app.main_graph.print_graph()
     return jsonify({"msg":graph_described})
+
+
+@main_bp.route('/graph/content', methods=['GET'])
+def get_graph_content():
+    graph_content = current_app.main_graph.get_graph()
+    return jsonify({"graph":graph_content})
+
+
+@main_bp.route('/graph/nodes', methods=['GET'])
+def get_nodes():
+    nodes = current_app.main_graph.get_nodes()
+    return jsonify({"nodes":nodes})

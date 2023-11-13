@@ -25,6 +25,23 @@ class Graph:
         self.adjacency_list[edge.destination_id].append(Edge(edge.destination_id, edge.source_id, edge.weight))
 
 
+    def get_nodes(self):
+        return [str(k) for k in self.adjacency_list.keys()]
+
+
+    def get_graph(self):
+        graph_content = {}
+
+        for k in self.adjacency_list.keys():
+            if k not in graph_content:
+                graph_content[k] = []
+
+            for edge in self.adjacency_list[k]:
+                graph_content[k].append(edge.to_dict())
+
+        return graph_content
+
+
     def print_graph(self):
         i = 1
         text = ""

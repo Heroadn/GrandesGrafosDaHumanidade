@@ -8,9 +8,18 @@ class Edge:
         self.weight = weight
         self.is_pedagio = is_pedagio
 
+
     def to_string(self):
         destination = self.destination_id
         source = self.source_id
         weight = self.weight
 
         return str(f"({source}) is connected to {destination} with weight {weight}")
+
+
+    def to_dict(self):
+        return {
+            "destination":self.destination_id,
+            "source":self.source_id,
+            "weight":self.weight
+            }

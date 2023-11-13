@@ -29,6 +29,46 @@
 			"response": []
 		},
 		{
+			"name": "get_nodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/graph/nodes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"graph",
+						"nodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_content",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/graph/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"graph",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "print_graph",
 			"request": {
 				"method": "GET",

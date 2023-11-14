@@ -11,9 +11,14 @@ import MapaPesquisar from './MapaPesquisar.vue';
         :nodes="nodes"
         :edges="edges"
         :layouts="layouts"
+        :paths="paths"
         :configs="configs"
-      />
-      <MapaPesquisar />
+      >
+        <template #edge-label="{ edge, ...slotProps }">
+          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" />
+        </template>
+      </v-network-graph>
+      <MapaPesquisar @searchResults="update"/>
        <!--</v-network-graph>:event-handlers="eventHandlers"-->
     </v-container>
   </v-card>
@@ -21,15 +26,26 @@ import MapaPesquisar from './MapaPesquisar.vue';
 
 <script lang="ts">
   import { mapStores } from 'pinia'
-  import { reactive, ref } from "vue"
-  import * as vNG from "v-network-graph"
+  import type * as vNG from "v-network-graph"
 
-  import { useTrajetoService } from '@/stores/trajetoService'
+  import { Trajeto, useTrajetoService } from '@/stores/trajetoService'
   import type { AxiosResponse } from 'axios';
-  import { Municipio } from '@/stores/municipioService'
 
   import { ForceLayout } from "v-network-graph/lib/force-layout"
   import type { ForceNodeDatum, ForceEdgeDatum } from "v-network-graph/lib/force-layout"
+
+  interface Node extends vNG.Node {
+    size: number
+    color: string
+    label?: boolean
+  }
+
+  interface Edge extends vNG.Edge {
+    width: number
+    color: string
+    dashed?: boolean
+  }
+
   /*
   import { EventHandlers } from "v-network-graph"
   const eventHandlers: EventHandlers = {
@@ -48,8 +64,10 @@ import MapaPesquisar from './MapaPesquisar.vue';
       data: () =>  
       {
         return {
-          nodes: {} as any,
-          edges: {} as any,
+          nodes: {} as Record<string, Node>,
+          edges: {} as Record<string, Edge>,
+          paths: {} as any,
+          destinations: [] as any,
           layouts: {
             nodes: {
             },
@@ -57,8 +75,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           configs :{
             view: {
               scalingObjects: true,
-              minZoomLevel: 1,
-              maxZoomLevel: 1,
+              minZoomLevel: 1.2,
+              maxZoomLevel: 1.2,
               layoutHandler: new ForceLayout({
               positionFixedByDrag: false,
               positionFixedByClickWithAltKey: true,
@@ -68,13 +86,76 @@ import MapaPesquisar from './MapaPesquisar.vue';
                   const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id((d:any) => d.id)
                   return d3
                     .forceSimulation(nodes)
-                    .force("edge", forceLink.distance(100))
+                    .force("edge", forceLink.distance(50).strength(0.01))
                     .force("charge", d3.forceManyBody())
-                    .force("collide", d3.forceCollide(50).strength(0.2))
-                    .force("center", d3.forceCenter().strength(0.05))
+                    .force("collide", d3.forceCollide(80).strength(0.1))
+                    .force("center", d3.forceCenter().strength(0.01))
                     .alphaMin(0.001)
               }
-              })}
+              })},
+              node: {
+                normal: {
+                  type: "circle",
+                  color: (node: any) => node.color,
+                },
+                hover: {
+                  radius: (node: any) => node.size + 2,
+                  color: (node: any) => node.color,
+                },
+                selectable: true,
+                label: {
+                  visible: true,
+                },
+                focusring: {
+                  color: "darkgray",
+                },
+              },
+              edge: {
+                normal: {
+                  color: (edge: any) => edge.color,
+                  dasharray: (edge: any) => (edge.dashed ? "8" : "0")
+                },
+                summarize: true,
+                summarized: {
+                  label: {
+                    fontSize: 10,
+                    color: "#4466cc",
+                  },
+                  shape: {
+                    type: "rect",
+                    radius: 6, // for type is "circle"
+                    width: 12,
+                    height: 12,
+                    borderRadius: 3,
+                    color: "#ffffff",
+                    strokeWidth: 1,
+                    strokeColor: "#4466cc",
+                    strokeDasharray: "0",
+                  },
+                  stroke: {
+                    width: 5,
+                    color: "#4466cc",
+                    dasharray: "0",
+                    linecap: "butt",
+                    animate: false,
+                    animationSpeed: 50,
+                  },
+                },
+                marker: {
+                  source: { type: "arrow" },
+                },
+                margin: 4,
+                gap: 10,
+                keepOrder: "clock",
+                
+              },
+              path: {
+              visible: true,
+              normal: {
+                width: 10,
+                color: (p: any) => "red",
+              },
+            },
           },
           isLoaded: false
         };
@@ -87,6 +168,11 @@ import MapaPesquisar from './MapaPesquisar.vue';
       {
         async load() 
         {
+          this.loadNodes();
+          this.isLoaded = true; 
+        },
+        async loadNodes()
+        {
           let response = await this.trajetoServiceStore.allNodes(0);
 
           this.request(response, 
@@ -97,16 +183,21 @@ import MapaPesquisar from './MapaPesquisar.vue';
               for(const node in nodes)
               {
                 const source: string = node;
-                const destinations = nodes[node].map(
+                const edges = nodes[node].map(
                   (element:any) => {
                     return { 
                     source: element.source,
                     target: element.destination,
-                    weight: element.weight }
+                    label: element.weight}
                   })
-                this.add({name: source}, destinations)
+                
+                //usado para procurar caminho de nodos  
+                this.destinations[node] = nodes[node].map(
+                    (element:any) => this._createNodeName(element.source, element.destination));
+
+                //adiciona nodo e edges
+                this.add({name: source, color: "red", size: 10}, edges)
               }
-              this.isLoaded = true; 
             }, 
           failedRes => {})
         },
@@ -121,15 +212,48 @@ import MapaPesquisar from './MapaPesquisar.vue';
           else
             failed(response);
         },
+        update(trajeto: Trajeto)
+        {
+          this.trace(trajeto)
+        },
+        trace(trajeto: Trajeto)
+        {
+          /*
+          //path1: { edges: ["edge1", "edge3", "edge5", "edge7"] },*/
+
+          let path = trajeto.shortestPath[Symbol.iterator]();
+          let source = path.next().value
+          let target = path.next().value
+          let result = [] as any
+
+          let id = source + '_'+ target
+          while(this.edges[id] != undefined)
+          {
+            result.push(id)
+            source = target
+            target = path.next().value
+            id = source + '_'+ target
+          }
+          
+          this.paths[trajeto.shortestDistance] = {edges: result}
+          console.log(this.paths)
+          console.log(this.edges)
+        },
         add(
-          node: {name: string}, 
-          edges: [{source: '', target: '', weight: ''}])
+          node: {name: string, color: string, size: number}, 
+          edges: [{source: '', target: '', weight: '', width: number, color: string, dashed: boolean}])
         {
           this.nodes[node.name] = node;
           
           edges.forEach(edge => {
-            this.edges[edge.source] = edge;
+            edge.color = "black";
+            edge.dashed = true;
+            this.edges[this._createNodeName(edge.source, edge.target)] = edge;
           });
+        },
+        _createNodeName(source:string, destination: string)
+        {
+          return source + '_' + destination
         }
       },
   };

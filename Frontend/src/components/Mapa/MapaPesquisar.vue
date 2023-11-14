@@ -3,22 +3,33 @@
 </script>
 
 <template>
-  <v-card><!--color="orange-lighten-2" variant="text"-->
-    <v-container v-if="isLoading" class="pa-1" style="max-height: 100vh;">
-      <v-form ref="form" @submit.prevent="procurar">
+  <!--color="orange-lighten-2" variant="text"-->
+  <v-container v-if="isLoading" class="pa-1"  style="min-height: 100vh;">
+        <v-form ref="form" @submit.prevent="procurar">
             <v-col>
                 <v-row>
-                    <v-text-field v-model="source" placeholder="Source" />
-                    <v-text-field v-model="desination" placeholder="Destine" />
+                  <v-text-field v-model="source" placeholder="Source" />
+                  <v-text-field v-model="destination" placeholder="Destine" />
+                  <v-card-actions>
+                    <v-btn
+                    color="orange-lighten-2"
+                    variant="outlined" 
+                    type="submit">
+                      Pesquisar
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
                 </v-row>
             </v-col>
         </v-form>
     </v-container>
-  </v-card>
 </template>
 
 <script lang="ts">
+  import type { AxiosResponse } from 'axios';
   import { mapStores } from 'pinia'
+  import { useTrajetoService } from '@/stores/trajetoService'
+  import { Trajeto } from '@/stores/trajetoService'
   /*
   import { EventHandlers } from "v-network-graph"
   const eventHandlers: EventHandlers = {
@@ -32,16 +43,21 @@
   export default {
       computed:
       {
+        ...mapStores(useTrajetoService)
       },
       data: () =>  
       {
         return {
           source: '',
-          desination: '',
+          destination: '',
+          shortest_distance: '',
+          shortest_path: [] as any,
           isLoading: false
         };
       },
       async mounted() {
+        this.source = "cidade_a"
+        this.destination = "cidade_f"
         await this.load();
         this.isLoading = true;
       },
@@ -49,12 +65,31 @@
       {
         async load() 
         {
-
-    
         },
-        procurar()
+        async request(
+          response: AxiosResponse<any, any>, 
+          success : (response: AxiosResponse<any, any>) => void,
+          failed  : (response: AxiosResponse<any, any>) => void)
         {
-          //this.$emit('searchResults', this.resultados);
+          let status = (await response.status);
+          if(status == 200)
+            success(response);
+          else
+            failed(response);
+        },
+        async procurar()
+        {
+            let response = await this.trajetoServiceStore.shortestPath(this.source, this.destination);
+            this.request(response, 
+            successRes => 
+              { 
+                this.shortest_distance = response.data.shortest_distance;
+                this.shortest_path = response.data.shortest_path;
+                this.$emit('searchResults', new Trajeto(this.shortest_distance, this.shortest_path));
+              }, 
+            failedRes => {})
+              
+      
         }
       },
   };

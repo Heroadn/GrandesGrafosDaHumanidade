@@ -7,4 +7,9 @@ from flask import current_app, jsonify
 def get_vehicles_info():
     vehicles_info = current_app.vehicles
 
-    return jsonify({"vehicles":vehicles_info})
+    vehicles_list = []
+    for k in vehicles_info.keys():
+        vehicles_info[k]["name"] = k
+        vehicles_list.append(vehicles_info[k])
+
+    return jsonify({"vehicles":vehicles_list})

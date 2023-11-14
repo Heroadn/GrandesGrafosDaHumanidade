@@ -72,7 +72,6 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
               this.add(new Municipio(nome, "", "", "", ""))
             }
 
-            console.log(this.municipios)
             this.municipiosSearch = this.municipios
           }
         },

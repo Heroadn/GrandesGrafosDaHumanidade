@@ -10,8 +10,8 @@ import MunicipioListar from './components/Municipio/MunicipioListar.vue'
 import MunicipioItem   from './components/Municipio/MunicipioItem.vue'
 import MunicipioPesquisar from './components/Municipio/MunicipioPesquisar.vue'
 
-import MapaListar from './components/Mapa/MapaListar.vue'
-
+import MapaListar    from './components/Mapa/MapaListar.vue'
+import MapaPesquisar from './components/Mapa/MapaPesquisar.vue'
 
 import VeiculoListar from './components/Veiculo/VeiculoListar.vue'
 import VeiculoItem   from './components/Veiculo/VeiculoItem.vue'

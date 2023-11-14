@@ -32,7 +32,6 @@ export class Municipio {
 export const useMunicipioService = defineStore('municipioService', {
     state: () => (Municipio),
     getters: {
-        getId: (state) => state.prototype.id,
         getNome: (state) => state.prototype.nome,
         getImage: (state) => state.prototype.image,
         getSource: (state) => state.prototype.source,
@@ -47,7 +46,7 @@ export const useMunicipioService = defineStore('municipioService', {
             return response;
         },
         printValues() {
-            console.log("ID: " + this.getId + " NOME: " + this.getNome)
+            console.log(" NOME: " + this.getNome)
         },
     }
 });

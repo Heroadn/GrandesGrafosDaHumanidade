@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import MapaPesquisar from './MapaPesquisar.vue';
 </script>
 
 <template>
@@ -12,6 +12,7 @@
         :edges="edges"
         :layouts="layouts"
       />
+      <MapaPesquisar />
        <!--</v-network-graph>:event-handlers="eventHandlers"-->
     </v-container>
   </v-card>
@@ -81,9 +82,11 @@
           },
           layouts: {
             nodes: {
+              /* 
               node1: { x: 50, y: 0 },
               node2: { x: 0, y: 75 },
               node3: { x: 200, y: 75 },
+              */
             },
           },
           isLoading: false

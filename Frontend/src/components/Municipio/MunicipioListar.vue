@@ -5,14 +5,13 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
 </script>
 
 <template>
-  <v-card 
-      class="mx-auto">
-    <v-container v-if="isLoading" class="pa-1" style="max-height: 100vh;">
+  <v-card>
+    <v-container class="pa-1" style="max-height: 100vh;">
       <MunicipioPesquisar @searchResults="update" :municipios="municipios"/>
       
       <perfect-scrollbar>
         <v-item-group multiple>
-          <v-row>
+          <v-row v-if="isLoaded">
             <v-col v-for="municipio, i in municipiosSearch"
               :key="i"
               cols="12"
@@ -24,53 +23,66 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
         </v-item-group>
       </perfect-scrollbar>
     </v-container>
-
-    
   </v-card>
 </template>
 
 <script lang="ts">
   import { mapStores } from 'pinia'
-  import { useMunicipio, Municipio } from '@/stores/municipioService'
+  import { Municipio } from '@/stores/municipioService'
+  import { useMunicipioService } from '@/stores/municipioService'
  
 
   export default {
       computed:
       {
+        ...mapStores(useMunicipioService)
       },
       data: () =>  
       {
         return {
           municipios: [] as Municipio[],
           municipiosSearch: [] as Array<Municipio>,
-          isLoading: false,
+          isLoaded: false,
         };
       },
       async mounted() {
         await this.load();
-        this.isLoading = true;
       },
       methods: 
       {
         async load() 
         {
+          /*
           for (let index = 1; index <= 30; index++) {
             let municipio = new Municipio(
               '0_' + index, 
               'teste_' + index, 
               'https://picsum.photos/350/165?random')
             this.add(municipio);
-          }
+          }*/
+          let response = await this.municipioServiceStore.all(0);
+          let status = (await response.status);
+          
+          if(status == 200)
+          {
+            let municipios = (await (await response).data).nodes
+            this.isLoaded = true;  
+            
+            for(const nome in municipios){
+              this.add(new Municipio(nome, "", "", "", ""))
+            }
 
-          this.municipiosSearch = this.municipios
+            console.log(this.municipios)
+            this.municipiosSearch = this.municipios
+          }
         },
         update(municipios: Array<Municipio>)
         {
           this.municipiosSearch = municipios
         },
-        remove(id: String)
+        remove(nome: String)
         {
-          this.municipios = this.municipios.filter(municipio => municipio.id != id)
+          this.municipios = this.municipios.filter(municipio => municipio.nome != nome)
         },
         add(municipio: Municipio)
         {

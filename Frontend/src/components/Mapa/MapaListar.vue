@@ -33,9 +33,6 @@
       computed:
       {
       },
-      props:
-      {
-      },
       data: () =>  
       {
         return {

@@ -12,6 +12,11 @@ import MunicipioPesquisar from './components/Municipio/MunicipioPesquisar.vue'
 
 import MapaListar from './components/Mapa/MapaListar.vue'
 
+
+import VeiculoListar from './components/Veiculo/VeiculoListar.vue'
+import VeiculoItem   from './components/Veiculo/VeiculoItem.vue'
+import VeiculoPesquisar from './components/Veiculo/VeiculoPesquisar.vue'
+
 </script>
 
 <script lang="ts">
@@ -27,14 +32,20 @@ import MapaListar from './components/Mapa/MapaListar.vue'
       MunicipioListar,
       MunicipioPesquisar,
 
-      MapaListar
+      MapaListar,
+
+      
+      VeiculoItem,
+      VeiculoListar,
+      VeiculoPesquisar
     },
     data(){
     return {
       appTitle: 'Awesome App',
       sidebar: false,
       menuItems: [
-          { title: 'Municipios', path: '/Municipios_Listar', icon: 'face' },
+          { title: 'Municipios', path: '/Municipio_Listar', icon: 'face' },
+          { title: 'Veiculos', path: '/Veiculo_Listar', icon: 'face' },
           { title: 'Mapa', path: '/Mapa_Listar', icon: 'lock_open' }
      ]
     }
@@ -49,15 +60,11 @@ import MapaListar from './components/Mapa/MapaListar.vue'
 
         <div class="wrapper">
           <HelloWorld msg="Path Finder" />
-          <!--
-          <nav v-for="item, i in menuItems">
-            <RouterLink :to="item.path">{{ item.title }}</RouterLink>
-          </nav> -->
-
+              
           <nav>
-            <RouterLink to="/Municipio_Listar">Municipios</RouterLink>
-            <RouterLink to="/Mapa_Listar">Mapa</RouterLink>
-          </nav>
+            <RouterLink v-for="item, i in menuItems" :to="item.path">{{ item.title }}</RouterLink>
+          </nav> 
+
         </div>
     </header>
     

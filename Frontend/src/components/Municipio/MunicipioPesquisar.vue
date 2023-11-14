@@ -17,7 +17,7 @@
 <script lang="ts">
   import { mapStores } from 'pinia'
   import type { PropType } from 'vue';
-  import type { useMunicipio, Municipio } from '@/stores/municipioService';
+  import type { useMunicipioService, Municipio } from '@/stores/municipioService';
   
 
   export default {

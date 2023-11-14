@@ -5,6 +5,8 @@ import AboutView from '../views/AboutView.vue'
 import MunicipioListarView from '../views/Municipio/MunicipioListarView.vue'
 import MapaListarView from '../views/Mapa/MapaListarView.vue'
 
+import VeiculoListarView from '../views/Veiculo/VeiculoListarView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,6 +27,11 @@ const router = createRouter({
       path: '/municipio_listar',
       name: 'municipio_listar',
       component: () => MunicipioListarView
+    },
+    {
+      path: '/veiculo_listar',
+      name: 'veiculo_listar',
+      component: () => VeiculoListarView
     },
     {
       path: '/mapa_listar',

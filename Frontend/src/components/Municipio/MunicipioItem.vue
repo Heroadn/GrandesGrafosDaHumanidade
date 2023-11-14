@@ -1,31 +1,19 @@
 <template>
-  <v-card
-    class="mx-auto"
-    width ="100%"
-    height ="20vh"
-    rounded="0">
-    <v-img
-      height="100%"
-      cover 
-      :src="municipio.image">
-      <v-card height="10%" class="mx-auto pa-6" rounded="0">
-        <v-row>
-          <v-label>{{ municipio.nome }}</v-label> 
-        </v-row>
-        <v-spacer></v-spacer>
-      </v-card>
-    </v-img>
+  <v-card class="mx-auto pa-6"  rounded="0">
+    <v-row>
+      <v-label>{{ municipio.nome }}</v-label> 
+    </v-row>
   </v-card>
 </template>
 
 <script lang="ts">
   import { mapStores } from 'pinia'
-  import { useMunicipio, Municipio } from '@/stores/municipioService'
+  import { useMunicipioService, Municipio } from '@/stores/municipioService'
   
   export default {
       computed:
       {
-        ...mapStores(useMunicipio)
+        ...mapStores(useMunicipioService)
       },
       props:
       {
@@ -37,7 +25,6 @@
       data: () =>  
       {
         return {
-          //image : new String("https://picsum.photos/350/165?random") ,
         };
       },
       mounted() {

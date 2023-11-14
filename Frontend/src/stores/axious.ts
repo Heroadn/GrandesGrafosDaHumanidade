@@ -1,39 +1,45 @@
 import axios from "axios";
 import { useAuthService } from '@/stores/authService'
+const isJWTEnabled = false
 
 const instance = axios.create({
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
   },
 });
 
-instance.interceptors.request.use(
-  (config) => {
+
+if(isJWTEnabled)
+{
+  instance.interceptors.request.use(
+    (config) => {
+        const authService = useAuthService()
+        const token: string = authService.getAccessToken
+  
+        if (token) {
+            config.headers["Authorization"] = 'Bearer ' + token
+        }
+        
+        return config
+    },
+    (error) => {
+        Promise.reject(error)
+    }
+  )
+  
+  instance.interceptors.response.use(response => {
+    return response;
+  }, error => {
+    const originalRequest = error.config;
+    if (error.response.status === 401) {
       const authService = useAuthService()
-      const token: string = authService.getAccessToken
-
-      if (token) {
-          config.headers["Authorization"] = 'Bearer ' + token
-      }
-      
-      return config
-  },
-  (error) => {
-      Promise.reject(error)
-  }
-)
-
-instance.interceptors.response.use(response => {
-  return response;
-}, error => {
-  const originalRequest = error.config;
-  if (error.response.status === 401) {
-    const authService = useAuthService()
-    authService.renewToken()
-    return instance(originalRequest);
-  }
-
-  return Promise.reject(error);
-});
+      authService.renewToken()
+      return instance(originalRequest);
+    }
+  
+    return Promise.reject(error);
+  });
+}
 
 export default instance;

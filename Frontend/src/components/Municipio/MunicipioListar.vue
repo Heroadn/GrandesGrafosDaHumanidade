@@ -28,8 +28,9 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
 
 <script lang="ts">
   import { mapStores } from 'pinia'
-  import { Municipio } from '@/stores/municipioService'
   import { useMunicipioService } from '@/stores/municipioService'
+  import { Municipio } from '@/stores/municipioService'
+  import type { AxiosResponse } from 'axios';
  
 
   export default {
@@ -52,28 +53,31 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
       {
         async load() 
         {
-          /*
-          for (let index = 1; index <= 30; index++) {
-            let municipio = new Municipio(
-              '0_' + index, 
-              'teste_' + index, 
-              'https://picsum.photos/350/165?random')
-            this.add(municipio);
-          }*/
           let response = await this.municipioServiceStore.all(0);
-          let status = (await response.status);
-          
-          if(status == 200)
-          {
-            let municipios = (await (await response).data).nodes
-            this.isLoaded = true;  
-            
-            for(const nome in municipios){
-              this.add(new Municipio(nome, "", "", "", ""))
-            }
 
-            this.municipiosSearch = this.municipios
-          }
+          this.request(response, 
+          successRes => 
+            { 
+              let municipios = successRes.data.nodes
+            
+              for(const nome in municipios)
+                this.add(new Municipio(nome, "", "", "", ""))
+
+              this.municipiosSearch = this.municipios
+              this.isLoaded = true; 
+            }, 
+          failedRes => {})
+        },
+        async request(
+          response: AxiosResponse<any, any>, 
+          success : (response: AxiosResponse<any, any>) => void,
+          failed  : (response: AxiosResponse<any, any>) => void)
+        {
+          let status = (await response.status);
+          if(status == 200)
+            success(response);
+          else
+            failed(response);
         },
         update(municipios: Array<Municipio>)
         {

@@ -24,6 +24,7 @@
     "pinia": "^2.0.32",
     "v-network-graph": "^0.9.13",
     "vue": "^3.2.47",
+    "vue-d3-network": "^0.1.28",
     "vue-router": "^4.1.6",
     "vue-timer-hook": "^1.0.84",
     "vue3-particles": "^2.12.0",

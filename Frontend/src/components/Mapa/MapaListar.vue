@@ -11,6 +11,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
         :nodes="nodes"
         :edges="edges"
         :layouts="layouts"
+        :configs="configs"
       />
       <MapaPesquisar />
        <!--</v-network-graph>:event-handlers="eventHandlers"-->
@@ -20,9 +21,15 @@ import MapaPesquisar from './MapaPesquisar.vue';
 
 <script lang="ts">
   import { mapStores } from 'pinia'
+  import { reactive, ref } from "vue"
+  import * as vNG from "v-network-graph"
+
   import { useTrajetoService } from '@/stores/trajetoService'
   import type { AxiosResponse } from 'axios';
   import { Municipio } from '@/stores/municipioService'
+
+  import { ForceLayout } from "v-network-graph/lib/force-layout"
+  import type { ForceNodeDatum, ForceEdgeDatum } from "v-network-graph/lib/force-layout"
   /*
   import { EventHandlers } from "v-network-graph"
   const eventHandlers: EventHandlers = {
@@ -41,57 +48,33 @@ import MapaPesquisar from './MapaPesquisar.vue';
       data: () =>  
       {
         return {
-          nodes: {
-            // node1: { name: "Node 1" },
-            // node2: { name: "Node 2" },
-            // node3: { name: "Node 3" },
-            // node4: { name: "Node 4" },
-            // node5: { name: "Node 5" },
-            // node6: { name: "Node 6" },
-            // node7: { name: "Node 7" },
-            // node8: { name: "Node 8" },
-            // node9: { name: "Node 9" },
-            // node10: { name: "Node 10" },
-            // node11: { name: "Node 11" },
-            // node12: { name: "Node 12" },
-            // node13: { name: "Node 13" },
-            // node14: { name: "Node 14" },
-            // node15: { name: "Node 15" },
-            // node16: { name: "Node 16" },
-            // node17: { name: "Node 17" },
-            // node18: { name: "Node 18" },
-            // node19: { name: "Node 19" },
-            // node20: { name: "Node 20" },
-          } as any,
-          edges: {
-            // edge1: { source: "node1", target: "node2" },
-            // edge2: { source: "node2", target: "node3" },
-            // edge3: { source: "node3", target: "node4" },
-            // edge4: { source: "node4", target: "node5" },
-            // edge5: { source: "node5", target: "node6" },
-            // edge6: { source: "node6", target: "node7" },
-            // edge7: { source: "node7", target: "node8" },
-            // edge8: { source: "node8", target: "node9" },
-            // edge9: { source: "node9", target: "node10" },
-            // edge10: { source: "node10", target: "node11" },
-            // edge11: { source: "node11", target: "node12" },
-            // edge12: { source: "node12", target: "node13" },
-            // edge13: { source: "node13", target: "node14" },
-            // edge14: { source: "node14", target: "node15" },
-            // edge15: { source: "node15", target: "node16" },
-            // edge16: { source: "node16", target: "node17" },
-            // edge17: { source: "node17", target: "node18" },
-            // edge18: { source: "node18", target: "node19" },
-            // edge19: { source: "node19", target: "node20" }
-          } as any,
+          nodes: {} as any,
+          edges: {} as any,
           layouts: {
             nodes: {
-              /* 
-              node1: { x: 50, y: 0 },
-              node2: { x: 0, y: 75 },
-              node3: { x: 200, y: 75 },
-              */
             },
+          },
+          configs :{
+            view: {
+              scalingObjects: true,
+              minZoomLevel: 1,
+              maxZoomLevel: 1,
+              layoutHandler: new ForceLayout({
+              positionFixedByDrag: false,
+              positionFixedByClickWithAltKey: true,
+              createSimulation: (d3, nodes, edges) => {
+
+                  // * The following are the default parameters for the simulation.
+                  const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id((d:any) => d.id)
+                  return d3
+                    .forceSimulation(nodes)
+                    .force("edge", forceLink.distance(100))
+                    .force("charge", d3.forceManyBody())
+                    .force("collide", d3.forceCollide(50).strength(0.2))
+                    .force("center", d3.forceCenter().strength(0.05))
+                    .alphaMin(0.001)
+              }
+              })}
           },
           isLoaded: false
         };

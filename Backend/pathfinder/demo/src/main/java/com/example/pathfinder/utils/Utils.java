@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 public class Utils {
     public static Graph createGraphFromCsv(String fileName) {
+        System.out.println("Will read from the CSV file and generate a Graph");
         Graph graph = new Graph();
         InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(fileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

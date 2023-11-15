@@ -7,21 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloResource {
+public class GraphResource {
 
     private final GraphService graphService;
 
-    public HelloResource(GraphService graphService) {
+    public GraphResource(GraphService graphService) {
         this.graphService = graphService;
     }
 
-    @GetMapping("/")
-    public String index() {
-        //The following lines are just intended to test the application for a while,
-        // they should be removed later
+    @GetMapping("/graph/test")
+    public String test() {
         Graph graph = graphService.getGraph();
         graph.printGraph();
-        return "Salve salve! Essa rota é só pra ver se tá tudo funcionando de fato";
+        return "Rota de teste do grafo principal! Deve imprimir o grafo no console da aplicação!";
     }
 
 }

@@ -220,6 +220,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
         {
           /*
           //path1: { edges: ["edge1", "edge3", "edge5", "edge7"] },*/
+          this.paths = {}
 
           let path = trajeto.shortestPath[Symbol.iterator]();
           let source = path.next().value
@@ -236,8 +237,6 @@ import MapaPesquisar from './MapaPesquisar.vue';
           }
           
           this.paths[trajeto.shortestDistance] = {edges: result}
-          console.log(this.paths)
-          console.log(this.edges)
         },
         add(
           node: {name: string, color: string, size: number}, 

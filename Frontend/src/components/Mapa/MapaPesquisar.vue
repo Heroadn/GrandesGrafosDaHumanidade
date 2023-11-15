@@ -5,25 +5,6 @@ import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
 <template>
   <!--color="orange-lighten-2" variant="text"-->
   <v-container v-if="isLoading" class="pa-1"  style="min-height: 100vh;">
-    <!--
-        <v-form ref="form" @submit.prevent="procurar">
-            <v-col>
-                <v-row>
-                  <v-text-field v-model="source" placeholder="Source" />
-                  <v-text-field v-model="destination" placeholder="Destine" />
-                  <v-card-actions>
-                    <v-btn
-                    color="orange-lighten-2"
-                    variant="outlined" 
-                    type="submit">
-                      Pesquisar
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-row>
-            </v-col>
-        </v-form>-->
-
         <v-row no-gutters>
           <v-col>
             <v-btn

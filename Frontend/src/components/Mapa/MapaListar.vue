@@ -13,13 +13,23 @@ import MapaPesquisar from './MapaPesquisar.vue';
         :layouts="layouts"
         :paths="paths"
         :configs="configs"
+        :layers="layers"
       >
         <template #edge-label="{ edge, ...slotProps }">
-          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" />
+          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
         </template>
+
+        <!-- Additional layer -->
+        <template #menu>
+          <v-card>
+            <v-row>
+              <v-label> asdklakdçlakdçadkçadkç </v-label> 
+            </v-row>
+          </v-card>
+        </template>
+        
       </v-network-graph>
       <MapaPesquisar @searchResults="update"/>
-       <!--</v-network-graph>:event-handlers="eventHandlers"-->
     </v-container>
   </v-card>
 </template>
@@ -46,16 +56,6 @@ import MapaPesquisar from './MapaPesquisar.vue';
     dashed?: boolean
   }
 
-  /*
-  import { EventHandlers } from "v-network-graph"
-  const eventHandlers: EventHandlers = {
-    "node:click": ({ node, event }) => {
-      if (event.ctrlKey) {
-        // ...
-      }
-    }
-  }*/
-
   export default {
       computed:
       {
@@ -67,11 +67,15 @@ import MapaPesquisar from './MapaPesquisar.vue';
           nodes: {} as Record<string, Node>,
           edges: {} as Record<string, Edge>,
           paths: {} as any,
-          destinations: [] as any,
+          layers:{
+            // {layername}: {position}
+            menu: "base",
+          },
           layouts: {
             nodes: {
             },
           },
+          destinations: [] as any,
           configs :{
             view: {
               scalingObjects: true,

@@ -16,7 +16,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
               cols="12"
               md="4">
               <VeiculoItem 
-                :veiculo="veiculo"/>
+                :veiculo="veiculo" @onClick="onClick"/>
             </v-col>
           </v-row>
         </v-item-group>
@@ -84,6 +84,11 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
         add(veiculo: Veiculo)
         {
           this.veiculos.push(veiculo)
+        },
+        onClick(veiculo: Veiculo)
+        {
+          this.$emit('onClick', veiculo);
+          console.log(veiculo)
         }
       },
   };

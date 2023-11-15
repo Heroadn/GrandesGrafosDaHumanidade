@@ -28,6 +28,14 @@ public class GraphResource {
         return "Rota de teste do grafo principal! Deve imprimir o grafo no console da aplicação!";
     }
 
+    @GetMapping("/graph/print")
+    public Map<String, String> print() {
+        Graph graph = graphService.getGraph();
+        Map<String, String> response = new HashMap<>();
+        response.put("msg", graph.printGraph());
+        return response;
+    }
+
     @GetMapping("/graph/nodes")
     public Map<String, LinkedList<String>> getNodes() {
         Graph graph = graphService.getGraph();

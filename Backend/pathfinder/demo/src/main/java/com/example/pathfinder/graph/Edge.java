@@ -34,7 +34,7 @@ public class Edge {
         return String.format("(%s) is connected to %s with weight %d", source, destination, weight);
     }
 
-    public java.util.Map<String, Object> toMap() {
+    public Map<String, Object> toMap() {
         Map<String, Object> edgeMap = new HashMap<>();
         edgeMap.put("destination", this.destinationId);
         edgeMap.put("source", this.sourceId);

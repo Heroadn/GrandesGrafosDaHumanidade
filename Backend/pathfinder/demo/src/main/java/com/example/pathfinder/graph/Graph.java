@@ -54,7 +54,7 @@ public class Graph {
         return graphContent;
     }
 
-    public void printGraph() {
+    public String printGraph() {
         int i = 1;
         StringBuilder text = new StringBuilder();
 
@@ -66,7 +66,10 @@ public class Graph {
         }
 
         System.out.println(text.toString());
+
+        return text.toString();
     }
+
     public Path dijkstra(String startVertex, String endVertex) {
         PriorityQueue<NodeDistance> priorityQueue = new PriorityQueue<>();
         Map<String, Boolean> visited = new HashMap<>();

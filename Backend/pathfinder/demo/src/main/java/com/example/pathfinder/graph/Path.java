@@ -19,4 +19,10 @@ public class Path {
         this.paths = paths;
         this.distance = distance;
     }
+
+    @Override
+    public String toString() {
+        return "Paths: " + paths + "\n" +
+                "Distance: " + distance;
+    }
 }

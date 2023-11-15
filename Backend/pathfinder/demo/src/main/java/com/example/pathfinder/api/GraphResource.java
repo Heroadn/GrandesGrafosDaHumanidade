@@ -23,6 +23,8 @@ public class GraphResource {
     public String test() {
         Graph graph = graphService.getGraph();
         graph.printGraph();
+
+        System.out.println(graph.dijkstra("cidade_a", "cidade_f"));
         return "Rota de teste do grafo principal! Deve imprimir o grafo no console da aplicação!";
     }
 

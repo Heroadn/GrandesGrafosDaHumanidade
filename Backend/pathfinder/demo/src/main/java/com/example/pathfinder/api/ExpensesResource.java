@@ -13,9 +13,11 @@ public class ExpensesResource {
                                                                 @RequestParam(value ="vehicle_type") String vehicletype)
     {
 
-        return la;// retorna o JSON para o usuario
+        //return la;// retorna o JSON para o usuario
+        return null;
     }
     private int getFuelcomsumption(double distance, String vehicletype){
+        /*
        Object<T> selectedvehicle = null;
         switch (vehicletype){
             case "minibus":
@@ -31,7 +33,7 @@ public class ExpensesResource {
             default:
                 raise Invalidvalue;
         }
-        gasexpend = distance/ selectedvehicle.getFuelconsumption;
+        gasexpend = distance/ selectedvehicle.getFuelconsumption;*/
 
         return 0;
     }

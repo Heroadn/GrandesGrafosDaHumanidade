@@ -102,12 +102,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/info/vehicles",
+							"raw": "http://localhost:8080/info/vehicles",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5000",
+							"port": "8080",
 							"path": [
 								"info",
 								"vehicles"

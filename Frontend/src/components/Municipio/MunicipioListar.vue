@@ -17,7 +17,7 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
               cols="12"
               md="4">
               <MunicipioItem 
-                :municipio="municipio"/>
+                :municipio="municipio" @onClick="onClick"/>
             </v-col>
           </v-row>
         </v-item-group>
@@ -44,6 +44,7 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
           municipios: [] as Municipio[],
           municipiosSearch: [] as Array<Municipio>,
           isLoaded: false,
+          overlay: true
         };
       },
       async mounted() {
@@ -59,9 +60,9 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
           successRes => 
             { 
               let municipios = successRes.data.nodes
-            
+
               for(const nome in municipios)
-                this.add(new Municipio(nome, "", "", "", ""))
+                this.add(new Municipio(municipios[nome], "", "", "", ""))
 
               this.municipiosSearch = this.municipios
               this.isLoaded = true; 
@@ -90,6 +91,10 @@ import MapaListar from '@/components/Mapa/MapaListar.vue'
         add(municipio: Municipio)
         {
           this.municipios.push(municipio)
+        },
+        onClick(nome:string)
+        {
+          this.$emit('onClick', nome);
         }
       },
   };

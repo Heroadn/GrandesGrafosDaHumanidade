@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-6"  rounded="0">
+  <v-card class="mx-auto pa-6"  rounded="0" @click="onClick">
     <v-row>
       <v-label>{{ municipio.nome }}</v-label> 
     </v-row>
@@ -31,6 +31,10 @@
       },
       methods: 
       {
+        onClick()
+        {
+          this.$emit('onClick', this.municipio.nome);
+        },
         limitText(value:String | string)
         {
           let val: String = value.slice(0, 255);

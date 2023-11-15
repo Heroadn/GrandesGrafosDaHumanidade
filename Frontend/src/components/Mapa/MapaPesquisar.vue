@@ -1,10 +1,11 @@
 <script setup lang="ts">
-
+import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
 </script>
-
+  
 <template>
   <!--color="orange-lighten-2" variant="text"-->
   <v-container v-if="isLoading" class="pa-1"  style="min-height: 100vh;">
+    <!--
         <v-form ref="form" @submit.prevent="procurar">
             <v-col>
                 <v-row>
@@ -21,8 +22,52 @@
                   </v-card-actions>
                 </v-row>
             </v-col>
-        </v-form>
+        </v-form>-->
+
+        <v-row no-gutters>
+          <v-col>
+            <v-btn
+              :prepend-icon="buttons['sourceBtn'].currentIcon"
+              color="purple-lighten-2"
+              variant="outlined" 
+              type="submit"
+              @click="selectedBtn = 'sourceBtn'; overlay = true ">
+              Origem
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              :prepend-icon="buttons['targetBtn'].currentIcon"
+              color="purple-lighten-2"
+              variant="outlined" 
+              type="submit"
+              @click="selectedBtn = 'targetBtn'; overlay = true">
+              Destino
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              color="purple-lighten-2"
+              variant="outlined" 
+              type="submit"
+              @click="procurar">
+              Pesquisar
+            </v-btn>
+          </v-col>
+        </v-row>  
     </v-container>
+
+    
+  <v-overlay cover
+    :model-value="overlay"
+    update="false"
+    class="align-center  justify-center">
+      <v-card 
+        class="cardColor mx-auto pa-6" dark>
+        <MunicipioListar @onClick="onClick"/>
+        <slot></slot>
+      </v-card>
+    </v-overlay>
 </template>
 
 <script lang="ts">
@@ -48,16 +93,50 @@
       data: () =>  
       {
         return {
-          source: '',
-          destination: '',
           shortest_distance: '',
           shortest_path: [] as any,
-          isLoading: false
+          isLoading: false,
+          overlay: false,
+          buttons: {
+            'sourceBtn': {
+              value: '',
+              altIcon: 'mdi-check', 
+              currentIcon: 'mdi-alert-circle',
+              isOn: false,
+              onAction(data: string){ 
+                this.value = data
+                this.isOn = true
+                this.swapIcon()
+              },
+              swapIcon()
+              {
+                let tmp = this.currentIcon
+                this.currentIcon = this.altIcon
+                this.altIcon = tmp
+              }
+            },
+            'targetBtn': {
+              value: '',
+              altIcon: 'mdi-check', 
+              currentIcon: 'mdi-alert-circle', 
+              isOn: false,
+              onAction(data: string){ 
+                this.value = data
+                this.isOn = true
+                this.swapIcon()
+              },
+              swapIcon()
+              {
+                let tmp = this.currentIcon
+                this.currentIcon = this.altIcon
+                this.altIcon = tmp
+              }
+            }
+          } as any,
+          selectedBtn: '' as string
         };
       },
       async mounted() {
-        this.source = "cidade_a"
-        this.destination = "cidade_f"
         await this.load();
         this.isLoading = true;
       },
@@ -79,17 +158,31 @@
         },
         async procurar()
         {
-            let response = await this.trajetoServiceStore.shortestPath(this.source, this.destination);
-            this.request(response, 
-            successRes => 
-              { 
-                this.shortest_distance = response.data.shortest_distance;
-                this.shortest_path = response.data.shortest_path;
-                this.$emit('searchResults', new Trajeto(this.shortest_distance, this.shortest_path));
-              }, 
-            failedRes => {})
-              
-      
+          const sourceBtn = this.buttons['sourceBtn'];
+          const targetBtn = this.buttons['targetBtn'];
+
+          const source = sourceBtn.value;
+          const target = targetBtn.value;
+
+          //if the user didnt selected anything
+          if(sourceBtn.value == '' && targetBtn.value == '')
+            return;
+
+          let response = await this.trajetoServiceStore.shortestPath(source, target);
+          this.request(response, 
+          successRes => 
+            { 
+              this.shortest_distance = response.data.shortest_distance;
+              this.shortest_path = response.data.shortest_path;
+              this.$emit('searchResults', new Trajeto(this.shortest_distance, this.shortest_path));
+            }, 
+          failedRes => {})
+        },
+        onClick(nome:string)
+        {
+          console.log(nome)
+          this.overlay = false
+          this.buttons[this.selectedBtn].onAction(nome);
         }
       },
   };

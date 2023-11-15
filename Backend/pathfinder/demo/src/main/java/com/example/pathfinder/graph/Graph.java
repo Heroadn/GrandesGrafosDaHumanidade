@@ -23,19 +23,13 @@ public class Graph {
 
         adjacencyList.get(edge.getSourceId()).add(edge);
 
-        //Will also add the same path in reverse order for bidirectionality
+        //Will also add the same path in reverse order for the graph to be bidirectional
         Edge reverseEdge = new Edge(edge.getDestinationId(), edge.getSourceId(), edge.getWeight());
         adjacencyList.get(edge.getDestinationId()).add(reverseEdge);
     }
 
     public LinkedList<String> getNodes() {
-        LinkedList<String> graphNodes = new LinkedList<>();
-
-        for (String k : adjacencyList.keySet()) {
-            graphNodes.add(k);
-        }
-
-        return graphNodes;
+        return new LinkedList<>(adjacencyList.keySet());
     }
 
     public Map<String, LinkedList<Map<String, Object>>> getGraph() {
@@ -65,9 +59,10 @@ public class Graph {
             i++;
         }
 
-        System.out.println(text.toString());
+        String text_string = text.toString();
+        System.out.println(text_string);
 
-        return text.toString();
+        return text_string;
     }
 
     public Path dijkstra(String startVertex, String endVertex) {

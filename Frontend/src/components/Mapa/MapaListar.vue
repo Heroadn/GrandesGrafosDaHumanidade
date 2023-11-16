@@ -3,24 +3,24 @@ import MapaPesquisar from './MapaPesquisar.vue';
 </script>
 
 <template>
-  <v-card 
-      class="cardColor mx-auto" dark>
-    <v-container v-if="isLoaded" class="pa-1" style="max-height: 100vh;">
-      <v-network-graph
-        class="graph"
-        :nodes="nodes"
-        :edges="edges"
-        :layouts="layouts"
-        :paths="paths"
-        :configs="configs"
-        :layers="layers"
-      >
-        <template #edge-label="{ edge, ...slotProps }">
-          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
-        </template>
+  <v-card>
+    <v-network-graph
+      class="graph"
+      :nodes="nodes"
+      :edges="edges"
+      :layouts="layouts"
+      :paths="paths"
+      :configs="configs"
+      :layers="layers"
+    >
+      <template #edge-label="{ edge, ...slotProps }">
+        <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
+      </template>
 
-        <!-- Additional layer -->
-        <template #menu>
+      
+
+      <!-- Additional layer -->
+      <template #menu>
           <v-card>
             <v-row>
               <v-label> asdklakdçlakdçadkçadkç </v-label> 
@@ -28,9 +28,23 @@ import MapaPesquisar from './MapaPesquisar.vue';
           </v-card>
         </template>
         
-      </v-network-graph>
+    </v-network-graph>
+  </v-card>
+
+  <v-card class="cardColor" style="height: 7vh;">
       <MapaPesquisar @searchResults="update"/>
-    </v-container>
+  </v-card>
+
+  <v-card>
+    <v-overlay cover
+    :model-value="overlay"
+    update="false"
+    class="align-center  justify-center">
+      <v-card class="cardColor mx-auto pa-6" dark>
+        <MapaPesquisar @searchResults="update"/>
+        <slot></slot>
+      </v-card>
+    </v-overlay>
   </v-card>
 </template>
 
@@ -79,8 +93,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           configs :{
             view: {
               scalingObjects: true,
-              minZoomLevel: 1.2,
-              maxZoomLevel: 1.2,
+              minZoomLevel: 0.9,
+              maxZoomLevel: 0.9,
               layoutHandler: new ForceLayout({
               positionFixedByDrag: false,
               positionFixedByClickWithAltKey: true,
@@ -161,7 +175,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
               },
             },
           },
-          isLoaded: false
+          isLoaded: false,
+          overlay: false
         };
       },
       async mounted() {
@@ -263,6 +278,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
 </script>
 
 <style scoped>
+
 .item {
   margin-top: 2rem;
   display: flex;
@@ -278,12 +294,6 @@ h3 {
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
-}
-
-.graph {
-  width: 95vh;
-  height: 90vh;
-  border: 0px solid #000;
 }
 
 @media (min-width: 1024px) {

@@ -23,6 +23,13 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import VNetworkGraph from "v-network-graph"
 import "v-network-graph/lib/style.css"
 
+//Vue sidebar
+import vueAwesomeSidebar from 'vue-awesome-sidebar'
+import 'vue-awesome-sidebar/dist/vue-awesome-sidebar.css'
+
+
+//Material Icons
+import 'material-icons/iconfont/material-icons.css'
 
 const vuetify = createVuetify({
     components,
@@ -41,4 +48,5 @@ app.use(vuetify)
 app.use(PerfectScrollbar)
 app.use(VNetworkGraph)
 app.use(naive)
+app.use(vueAwesomeSidebar)
 app.mount('#app')

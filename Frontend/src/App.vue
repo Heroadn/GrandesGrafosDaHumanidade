@@ -17,9 +17,41 @@ import VeiculoListar from './components/Veiculo/VeiculoListar.vue'
 import VeiculoItem   from './components/Veiculo/VeiculoItem.vue'
 import VeiculoPesquisar from './components/Veiculo/VeiculoPesquisar.vue'
 
+import HeaderNav from '@/components/HeaderNav.vue'
+
 </script>
 
 <script lang="ts">
+  import { ref } from 'vue'
+
+const collapsed = ref(false)
+const miniMenu = ref(false)
+
+const testMenu = [
+  {
+    name: 'Mapa',
+    icon: { text: 'settings', class: 'material-icons-outlined'  },
+    href: '/Mapa_Listar',
+  },
+  {
+    name: 'Listar',
+    icon: { text: 'settings', class: 'material-icons-outlined'  },
+    children: [
+      {
+        name: 'Municipios',
+        icon: { text: 'settings', class: 'material-icons-outlined' },
+        href: '/Municipio_Listar',
+      },
+      {
+        name: 'Veiculos',
+        icon: { text: 'settings', class: 'material-icons-outlined' },
+        href: '/Veiculo_Listar',
+      },
+    ]
+  }
+]
+
+
   export default {
     name: "App",
     components: {
@@ -37,7 +69,8 @@ import VeiculoPesquisar from './components/Veiculo/VeiculoPesquisar.vue'
       
       VeiculoItem,
       VeiculoListar,
-      VeiculoPesquisar
+      VeiculoPesquisar,
+      HeaderNav
     },
     data(){
     return {
@@ -55,24 +88,53 @@ import VeiculoPesquisar from './components/Veiculo/VeiculoPesquisar.vue'
 
 
 <template> 
-    <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <VueAwesomeSideBar
+      v-model:miniMenu="miniMenu"
+      v-model:collapsed="collapsed"
+      :menu="testMenu"
+      vueRouterEnabel
+    >
 
-        <div class="wrapper">
-          <HelloWorld msg="Path Finder" />
-              
-          <nav>
-            <RouterLink v-for="item, i in menuItems" :to="item.path">{{ item.title }}</RouterLink>
-          </nav> 
+    <template #header>
+      <v-row>
+        <v-col cols="4">
+          <v-sheet class="pa-2 ma-2">
+            <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="100" height="100" />
+          </v-sheet>
+        </v-col>
+        <v-col cols="8">
+          <v-sheet class="pa-2 ma-2">
+            <HelloWorld msg="Path Finder"></HelloWorld>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </template>
 
-        </div>
-    </header>
-    
-    <RouterView />
+    <template #headerItem="{ header }"></template>
+    <!--
+    <template #header>
+      <HeaderNav :menuItems="menuItems" :appTitle="appTitle" />
+    </template>-->
+  </VueAwesomeSideBar>
 
+  <v-card class="cardColor">
+    <v-container>
+      <v-col>
+        <v-row>
+            <RouterView />
+        </v-row>
+      </v-col>
+    </v-container>
+  </v-card>
 </template>
 
 <style scoped>
+
+.cardColor
+{
+  background-color: var(--vt-card-main)
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import MunicipioItem from '@/components/Municipio/MunicipioItem.vue' 
 import MunicipioPesquisar from './MunicipioPesquisar.vue';
-import MapaListar from '@/components/Mapa/MapaListar.vue'
 </script>
 
 <template>
+  
   <v-card>
-    <v-container class="pa-1" style="max-height: 100vh;">
+    <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh; max-width: 60vh;">
       <MunicipioPesquisar @searchResults="update" :municipios="municipios"/>
       
       <perfect-scrollbar>

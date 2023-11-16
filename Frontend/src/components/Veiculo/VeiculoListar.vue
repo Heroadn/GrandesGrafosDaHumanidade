@@ -5,7 +5,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
 
 <template>
   <v-card>
-    <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh;">
+    <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh; max-width: 60vh;">
       <VeiculoPesquisar @searchResults="update" :veiculos="veiculos"/>
       
       <perfect-scrollbar>

@@ -8,11 +8,34 @@
   font-weight: normal;
 }
 
+.graph {
+  width: 100vh;
+  height: 80vh;
+  border: 0px solid #000;
+}
+
+.madeWith
+{
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
 a,
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
+
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+a:active {
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 @media (hover: hover) {
@@ -21,7 +44,7 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 2024px) {
   body {
     display: flex;
     place-items: center;

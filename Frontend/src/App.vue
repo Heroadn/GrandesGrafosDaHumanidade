@@ -18,39 +18,32 @@ import VeiculoItem   from './components/Veiculo/VeiculoItem.vue'
 import VeiculoPesquisar from './components/Veiculo/VeiculoPesquisar.vue'
 
 import HeaderNav from '@/components/HeaderNav.vue'
-
 </script>
 
 <script lang="ts">
-  import { ref } from 'vue'
-
-const collapsed = ref(false)
-const miniMenu = ref(false)
-
-const testMenu = [
-  {
-    name: 'Mapa',
-    icon: { text: 'settings', class: 'material-icons-outlined'  },
-    href: '/Mapa_Listar',
-  },
-  {
-    name: 'Listar',
-    icon: { text: 'settings', class: 'material-icons-outlined'  },
-    children: [
-      {
-        name: 'Municipios',
-        icon: { text: 'settings', class: 'material-icons-outlined' },
-        href: '/Municipio_Listar',
-      },
-      {
-        name: 'Veiculos',
-        icon: { text: 'settings', class: 'material-icons-outlined' },
-        href: '/Veiculo_Listar',
-      },
-    ]
-  }
-]
-
+  const testMenu = [
+    {
+      name: 'Mapa',
+      icon: { text: 'settings', class: 'material-icons-outlined'  },
+      href: '/Mapa_Listar',
+    },
+    {
+      name: 'Listar',
+      icon: { text: 'settings', class: 'material-icons-outlined'  },
+      children: [
+        {
+          name: 'Municipios',
+          icon: { text: 'settings', class: 'material-icons-outlined' },
+          href: '/Municipio_Listar',
+        },
+        {
+          name: 'Veiculos',
+          icon: { text: 'settings', class: 'material-icons-outlined' },
+          href: '/Veiculo_Listar',
+        },
+      ]
+    }
+  ]
 
   export default {
     name: "App",
@@ -76,6 +69,9 @@ const testMenu = [
     return {
       appTitle: 'Awesome App',
       sidebar: false,
+      collapsed:false,
+      miniMenu: false,
+      darkMode: true,
       menuItems: [
           { title: 'Municipios', path: '/Municipio_Listar', icon: 'face' },
           { title: 'Veiculos', path: '/Veiculo_Listar', icon: 'face' },
@@ -83,6 +79,12 @@ const testMenu = [
      ]
     }
   },
+  methods:
+  {
+    update(isCollapsed:boolean){
+      console.log(";)")
+    }
+  }
   };
 </script>
 
@@ -92,29 +94,22 @@ const testMenu = [
       v-model:miniMenu="miniMenu"
       v-model:collapsed="collapsed"
       :menu="testMenu"
+      :dark="darkMode"
       vueRouterEnabel
     >
 
     <template #header>
       <v-row>
-        <v-col cols="4">
-          <v-sheet class="pa-2 ma-2">
+        <v-col cols="4" v-if="!collapsed">
             <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="100" height="100" />
-          </v-sheet>
         </v-col>
         <v-col cols="8">
-          <v-sheet class="pa-2 ma-2">
             <HelloWorld msg="Path Finder"></HelloWorld>
-          </v-sheet>
         </v-col>
       </v-row>
     </template>
 
     <template #headerItem="{ header }"></template>
-    <!--
-    <template #header>
-      <HeaderNav :menuItems="menuItems" :appTitle="appTitle" />
-    </template>-->
   </VueAwesomeSideBar>
 
   <v-card class="cardColor">

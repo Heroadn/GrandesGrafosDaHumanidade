@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VehiclesService {
-    private final LinkedList<Vehicles> vehicles;
+    private final LinkedList<Vehicle> vehicles;
 
     @Autowired
     public VehiclesService() {
@@ -21,7 +21,7 @@ public class VehiclesService {
         this.vehicles.add(new Truck(40, 80, "Diesel"));
     }
 
-    public LinkedList<Vehicles> getVehicles() {
+    public LinkedList<Vehicle> getVehicles() {
         return vehicles;
     }
 }

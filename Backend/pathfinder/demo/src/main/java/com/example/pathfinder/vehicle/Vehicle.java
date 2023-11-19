@@ -1,6 +1,6 @@
 package com.example.pathfinder.vehicle;
 
-public abstract class  Vehicles {
+public abstract class Vehicle {
     private double fuelconsumption;
     private int maxspeed;
     private String fueltype;

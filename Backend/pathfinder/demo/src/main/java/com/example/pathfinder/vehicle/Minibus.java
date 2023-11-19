@@ -1,6 +1,6 @@
 package com.example.pathfinder.vehicle;
 
-public class Minibus extends Vehicles {
+public class Minibus extends Vehicle {
     public Minibus(double fuelconsumption, int maxspeed, String fueltype) {
 
         this.setFuelconsumption(fuelconsumption);

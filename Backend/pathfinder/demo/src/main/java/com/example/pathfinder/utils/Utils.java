@@ -2,20 +2,22 @@ package com.example.pathfinder.utils;
 
 import com.example.pathfinder.graph.Graph;
 import com.example.pathfinder.graph.Edge;
+import org.springframework.core.io.ClassPathResource;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Utils {
+
     public static Graph createGraphFromCsv(String fileName) {
         System.out.println("Will read from the CSV file and generate a Graph");
         Graph graph = new Graph();
-        InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(fileName);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         try {
+            InputStream inputStream
+                    = Utils.class.getClassLoader().getResourceAsStream(fileName);
+            BufferedReader reader
+                    = new BufferedReader(new InputStreamReader(inputStream));
+
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
@@ -29,8 +31,8 @@ public class Utils {
                 }
             }
 
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("An error occured while reading the CSV!");
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            System.out.println("An error occured while reading the CSV!: " + fileName + " ; Exception: " + e);
             e.printStackTrace();
         }
 

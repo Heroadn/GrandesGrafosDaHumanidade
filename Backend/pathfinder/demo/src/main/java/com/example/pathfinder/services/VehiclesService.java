@@ -4,12 +4,14 @@ import com.example.pathfinder.vehicle.*;
 
 import java.util.LinkedList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehiclesService {
     private final LinkedList<Vehicles> vehicles;
 
+    @Autowired
     public VehiclesService() {
         this.vehicles = new LinkedList<>();
         this.vehicles.add(new Bus(30, 90, "Diesel"));

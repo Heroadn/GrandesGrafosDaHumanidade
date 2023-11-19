@@ -4,6 +4,7 @@ import com.example.pathfinder.graph.Graph;
 import com.example.pathfinder.graph.Path;
 import com.example.pathfinder.services.GraphService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +19,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/graph")
 public class GraphResource {
-
-    private final GraphService graphService;
-
-    public GraphResource(GraphService graphService) {
-        this.graphService = graphService;
-    }
+    @Autowired
+    private GraphService graphService;
 
     @GetMapping("/test")
     public String test() {

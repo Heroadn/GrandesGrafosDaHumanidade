@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/expenses")
 public class ExpensesResource {
 
-    public @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE) String Expenses(@RequestParam(value ="distance")
-                                                                                                   double distance,
-                                                                @RequestParam(value ="vehicle_type") String vehicletype)
+    public @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE)
+    String Expenses(@RequestParam(value ="distance")
+                    double distance,
+                    @RequestParam(value ="vehicle_type") String vehicletype)
     {
 
         //return la;// retorna o JSON para o usuario

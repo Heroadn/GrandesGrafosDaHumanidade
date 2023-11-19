@@ -3,6 +3,7 @@ package com.example.pathfinder.services;
 import com.example.pathfinder.vehicle.*;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,3 +26,4 @@ public class VehiclesService {
         return vehicles;
     }
 }
+

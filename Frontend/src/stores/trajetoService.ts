@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import instance from "@/stores/axious"
-const HOST = 'localhost:5000'
+const HOST = 'localhost:8080'
 const PATH = 'graph'
 
 export class Trajeto {

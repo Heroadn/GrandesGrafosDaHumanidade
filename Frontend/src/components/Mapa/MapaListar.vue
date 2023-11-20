@@ -198,7 +198,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           successRes => 
             { 
               let nodes = successRes.data.graph
-              
+              console.log(nodes)
+
               for(const node in nodes)
               {
                 const source: string = node;

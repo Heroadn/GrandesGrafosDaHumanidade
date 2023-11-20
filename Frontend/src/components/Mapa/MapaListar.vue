@@ -6,7 +6,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
   <v-row>
     <v-col>
       <v-btn
-        color="green-lighten-2"
+        color="black"
         type="submit"
         @click="openMapMenu">
         Pesquisar

@@ -3,46 +3,70 @@ import MapaPesquisar from './MapaPesquisar.vue';
 </script>
 
 <template>
-  <v-card>
-    <v-network-graph
-      class="graph"
-      :nodes="nodes"
-      :edges="edges"
-      :layouts="layouts"
-      :paths="paths"
-      :configs="configs"
-      :layers="layers"
-    >
-      <template #edge-label="{ edge, ...slotProps }">
-        <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
-      </template>
+  <v-row>
+    <v-col>
+      <v-btn
+        color="green-lighten-2"
+        type="submit"
+        @click="openMapMenu">
+        Pesquisar
+      </v-btn>
+                    
+      <v-network-graph
+          class="graph"
+          :nodes="nodes"
+          :edges="edges"
+          :layouts="layouts"
+          :paths="paths"
+          :configs="configs"
+          :layers="layers"
+        >
+          <template #edge-label="{ edge, ...slotProps }">
+            <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
+          </template>
 
-      
+          <template #badge="{ scale }">
+          <!--
+            If the `view.scalingObjects` config is `false`(default),
+            scaling does not change the display size of the nodes/edges.
+            The `scale` is passed as a scaling factor to implement
+            this behavior. -->
+            <circle
+              v-for="(pos, node) in layouts.nodes"
+              :key="node"
+              :cx="10"
+              :cy="10"
+              :r="4 * scale"
+              :fill="nodes[node].active ? '#00cc00' : '#ffffff'"
+              style="pointer-events: none"
+            />
+          </template>
 
-      <!-- Additional layer -->
-      <template #menu>
-          <v-card>
-            <v-row>
-              <v-label> asdklakdçlakdçadkçadkç </v-label> 
-            </v-row>
-          </v-card>
-        </template>
-        
-    </v-network-graph>
-  </v-card>
-
-  <v-card class="cardColor" style="height: 7vh;">
-      <MapaPesquisar @searchResults="update"/>
-  </v-card>
+          <!-- Additional layer -->
+          <template #menuMap>
+            <v-card color="black">
+              <v-row>
+                <v-btn
+                  color="green-lighten-2"
+                  type="submit"
+                  @click="openMapMenu">
+                  Pesquisar
+                </v-btn>
+              </v-row>
+            </v-card>
+          </template>
+            
+      </v-network-graph>
+    </v-col>
+  </v-row>
 
   <v-card>
     <v-overlay cover
-    :model-value="overlay"
+    :model-value="overlayMapMenu"
     update="false"
     class="align-center  justify-center">
       <v-card class="cardColor mx-auto pa-6" dark>
         <MapaPesquisar @searchResults="update"/>
-        <slot></slot>
       </v-card>
     </v-overlay>
   </v-card>
@@ -83,7 +107,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           paths: {} as any,
           layers:{
             // {layername}: {position}
-            menu: "base",
+            menuMap: "root",
+            badge: "nodes"
           },
           layouts: {
             nodes: {
@@ -93,8 +118,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           configs :{
             view: {
               scalingObjects: true,
-              minZoomLevel: 0.9,
-              maxZoomLevel: 0.9,
+              minZoomLevel: 1.05,
+              maxZoomLevel: 1.05,
               layoutHandler: new ForceLayout({
               positionFixedByDrag: false,
               positionFixedByClickWithAltKey: true,
@@ -176,7 +201,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
             },
           },
           isLoaded: false,
-          overlay: false
+          overlayMapMenu: false
         };
       },
       async mounted() {
@@ -198,10 +223,10 @@ import MapaPesquisar from './MapaPesquisar.vue';
           successRes => 
             { 
               let nodes = successRes.data.graph
-              console.log(nodes)
 
               for(const node in nodes)
               {
+                //mapeando edges para formato da lib
                 const source: string = node;
                 const edges = nodes[node].map(
                   (element:any) => {
@@ -216,7 +241,9 @@ import MapaPesquisar from './MapaPesquisar.vue';
                     (element:any) => this._createNodeName(element.source, element.destination));
 
                 //adiciona nodo e edges
-                this.add({name: source, color: "red", size: 10}, edges)
+                this.add(
+                  {name: source, color: "red", size: 10}, 
+                  edges)
               }
             }, 
           failedRes => {})
@@ -270,6 +297,10 @@ import MapaPesquisar from './MapaPesquisar.vue';
             this.edges[this._createNodeName(edge.source, edge.target)] = edge;
           });
         },
+        openMapMenu()
+        {
+          this.overlayMapMenu = true;
+        },
         _createNodeName(source:string, destination: string)
         {
           return source + '_' + destination
@@ -279,6 +310,13 @@ import MapaPesquisar from './MapaPesquisar.vue';
 </script>
 
 <style scoped>
+
+#container {
+  position: relative;
+}
+#container canvas, #overlay {
+  position: absolute;
+}
 
 .item {
   margin-top: 2rem;

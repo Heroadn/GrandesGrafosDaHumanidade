@@ -25,7 +25,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
             <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
           </template>
 
-          <template #badge="{ scale }">
+          <template #badge="{ scale }" v-if="false">
           <!--
             If the `view.scalingObjects` config is `false`(default),
             scaling does not change the display size of the nodes/edges.

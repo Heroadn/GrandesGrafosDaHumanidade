@@ -46,7 +46,7 @@ import HeaderNav from '@/components/HeaderNav.vue'
       appTitle: 'Awesome App',
       sidebar: false,
       collapsed:false,
-      miniMenu: false,
+      miniMenu: true,
       darkMode: true,
       menuItems: [
           { title: 'Municipios', path: '/Municipio_Listar', icon: 'face' },
@@ -97,13 +97,20 @@ import HeaderNav from '@/components/HeaderNav.vue'
       vueRouterEnabel
     >
 
-    <template #header>
+    <template v-if="miniMenu == false" #header>
       <v-row>
         <v-col cols="4" v-if="!collapsed">
             <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="100" height="100" />
         </v-col>
         <v-col cols="8">
             <HelloWorld msg="Path Finder"></HelloWorld>
+        </v-col>
+      </v-row>
+    </template>
+    <template v-else #header>
+      <v-row>
+        <v-col cols="4" v-if="!collapsed">
+            <img alt="Vue logo" class="logo" style="opacity:0;" src="@/assets/logo.svg" width="50" height="50" />
         </v-col>
       </v-row>
     </template>

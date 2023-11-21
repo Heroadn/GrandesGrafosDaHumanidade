@@ -5,13 +5,52 @@ import MapaPesquisar from './MapaPesquisar.vue';
 <template>
   <v-row>
     <v-col>
-      <v-btn
-        color="black"
-        type="submit"
-        @click="openMapMenu">
-        Pesquisar
-      </v-btn>
-                    
+      <div style="float: right; position: absolute;z-index: 1;">
+        <v-app id="app-container">
+        <v-row>
+          <v-col>
+            <v-row>
+              <v-btn
+              color="black"
+              type="submit"
+              @click="openMapMenu">
+              Pesquisar
+              </v-btn>
+            </v-row>
+            
+            <v-row v-if="isMenu">
+              <v-slider
+                label = "Dashed"
+                :v-model="configs.edge.normal.dasharray"
+                max="8">
+              </v-slider>
+            </v-row>
+            <v-row v-if="isMenu">
+              <v-slider
+                label="R"
+                :v-model="configs.edge.normal.color"
+                max="255">
+              </v-slider>
+            </v-row>
+            <v-row v-if="isMenu">
+              <v-slider
+                label="G"
+                :v-model="configs.edge.normal.color"
+                max="255">
+              </v-slider>
+            </v-row>
+            <v-row v-if="isMenu">
+              <v-slider
+                label="B"
+                :v-model="configs.edge.normal.color"
+                max="255">
+              </v-slider>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-app>
+    </div>     
+      
       <v-network-graph
           class="graph"
           :nodes="nodes"
@@ -118,8 +157,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
           configs :{
             view: {
               scalingObjects: true,
-              minZoomLevel: 1.05,
-              maxZoomLevel: 1.05,
+              minZoomLevel: 0.60,
+              maxZoomLevel: 0.60,
               layoutHandler: new ForceLayout({
               positionFixedByDrag: false,
               positionFixedByClickWithAltKey: true,
@@ -129,7 +168,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
                   const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id((d:any) => d.id)
                   return d3
                     .forceSimulation(nodes)
-                    .force("edge", forceLink.distance(50).strength(0.01))
+                    .force("edge", forceLink.distance(80).strength(0.01))
                     .force("charge", d3.forceManyBody())
                     .force("collide", d3.forceCollide(80).strength(0.1))
                     .force("center", d3.forceCenter().strength(0.01))
@@ -139,7 +178,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
               node: {
                 normal: {
                   type: "circle",
-                  color: (node: any) => node.color,
+                  color: (node: any) => 'black',
                 },
                 hover: {
                   radius: (node: any) => node.size + 2,
@@ -148,6 +187,20 @@ import MapaPesquisar from './MapaPesquisar.vue';
                 selectable: true,
                 label: {
                   visible: true,
+                  direction: "center",
+                  directionAutoAdjustment: true,
+                  fontFamily: undefined,
+                  fontSize: 18,
+                  color: "#FFFFFF",
+                  background: {
+                    visible: true,
+                    color: "#000000FF",
+                    padding: {
+                      vertical: 1,
+                      horizontal: 4,
+                    },
+                    borderRadius: 2,
+                  },
                 },
                 focusring: {
                   color: "darkgray",
@@ -155,34 +208,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
               },
               edge: {
                 normal: {
-                  color: (edge: any) => edge.color,
-                  dasharray: (edge: any) => (edge.dashed ? "8" : "0")
-                },
-                summarize: true,
-                summarized: {
-                  label: {
-                    fontSize: 10,
-                    color: "#4466cc",
-                  },
-                  shape: {
-                    type: "rect",
-                    radius: 6, // for type is "circle"
-                    width: 12,
-                    height: 12,
-                    borderRadius: 3,
-                    color: "#ffffff",
-                    strokeWidth: 1,
-                    strokeColor: "#4466cc",
-                    strokeDasharray: "0",
-                  },
-                  stroke: {
-                    width: 5,
-                    color: "#4466cc",
-                    dasharray: "0",
-                    linecap: "butt",
-                    animate: false,
-                    animationSpeed: 50,
-                  },
+                  color: (edge: any) => "blue",
+                  dasharray: (edge: any) =>  (edge.dashed ? "4" : "0")
                 },
                 marker: {
                   source: { type: "arrow" },
@@ -190,7 +217,6 @@ import MapaPesquisar from './MapaPesquisar.vue';
                 margin: 4,
                 gap: 10,
                 keepOrder: "clock",
-                
               },
               path: {
               visible: true,
@@ -201,7 +227,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
             },
           },
           isLoaded: false,
-          overlayMapMenu: false
+          overlayMapMenu: false,
+          isMenu: false,
         };
       },
       async mounted() {
@@ -316,6 +343,11 @@ import MapaPesquisar from './MapaPesquisar.vue';
 }
 #container canvas, #overlay {
   position: absolute;
+}
+
+#app-container
+{
+  background-color: rgba(255, 255, 255, 0.0) !important;
 }
 
 .item {

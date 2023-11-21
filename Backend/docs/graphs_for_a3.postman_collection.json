@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/graph/shortest_path/cidade_f/cidade_a",
+							"raw": "http://localhost:8080/graph/shortest_path/BOM JARDIM DA SERRA/BOCAINA DO SUL",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -24,8 +24,8 @@
 							"path": [
 								"graph",
 								"shortest_path",
-								"cidade_f",
-								"cidade_a"
+								"BOM JARDIM DA SERRA",
+								"BOCAINA DO SUL"
 							]
 						}
 					},

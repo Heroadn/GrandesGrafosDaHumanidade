@@ -83,7 +83,7 @@ public class Graph {
             NodeDistance nodeDistance = priorityQueue.poll();
             String currentVertex = nodeDistance.vertex;
 
-            if (visited.get(currentVertex)) {
+            if (visited.containsKey(currentVertex) && visited.get(currentVertex)) {
                 continue;
             }
 
@@ -91,7 +91,7 @@ public class Graph {
 
             if (adjacencyList.containsKey(currentVertex)) {
                 for (Edge edge : adjacencyList.get(currentVertex)) {
-                    int newDistance = distance.get(currentVertex) + edge.getWeight();
+                    int newDistance = nodeDistance.distance + edge.getWeight();
 
                     if (newDistance < distance.get(edge.getDestinationId())) {
                         distance.put(edge.getDestinationId(), newDistance);

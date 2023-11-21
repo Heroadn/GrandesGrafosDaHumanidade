@@ -12,7 +12,7 @@ public class GraphService {
 
     @Autowired
     public GraphService() {
-        this.graph = Utils.createGraphFromCsv("paths.csv");
+        this.graph = Utils.createGraphFromCsv("paths_real.csv");
     }
 
     public Graph getGraph() {

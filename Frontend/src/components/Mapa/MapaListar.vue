@@ -21,28 +21,29 @@ import MapaPesquisar from './MapaPesquisar.vue';
             <v-row v-if="isMenu">
               <v-slider
                 label = "Dashed"
-                :v-model="configs.edge.normal.dasharray"
+                :v-model:modelValue="configs.edge.normal.dasharray"
                 max="8">
               </v-slider>
             </v-row>
             <v-row v-if="isMenu">
+              <!--configs.edge.normal.color-->
               <v-slider
                 label="R"
-                :v-model="configs.edge.normal.color"
+                :v-model="red"
                 max="255">
               </v-slider>
             </v-row>
             <v-row v-if="isMenu">
               <v-slider
                 label="G"
-                :v-model="configs.edge.normal.color"
+                :v-model="green"
                 max="255">
               </v-slider>
             </v-row>
             <v-row v-if="isMenu">
               <v-slider
                 label="B"
-                :v-model="configs.edge.normal.color"
+                :v-model="blue"
                 max="255">
               </v-slider>
             </v-row>
@@ -229,6 +230,9 @@ import MapaPesquisar from './MapaPesquisar.vue';
           isLoaded: false,
           overlayMapMenu: false,
           isMenu: false,
+          red: 0,
+          green: 0,
+          blue: 0
         };
       },
       async mounted() {
@@ -289,6 +293,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
         update(trajeto: Trajeto)
         {
           this.trace(trajeto)
+          this.overlayMapMenu = false;
         },
         trace(trajeto: Trajeto)
         {

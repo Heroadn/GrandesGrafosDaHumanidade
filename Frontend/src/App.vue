@@ -4,7 +4,6 @@ import HelloWorld    from './components/HelloWorld.vue'
 
 import CircularOverlay     from './components/CircularOverlay.vue'
 import TextOverlay from './components/TextOverlay.vue'
-import AuthGuard   from './components/AuthGuard.vue'
 
 import MunicipioListar from './components/Municipio/MunicipioListar.vue'
 import MunicipioItem   from './components/Municipio/MunicipioItem.vue'
@@ -28,7 +27,6 @@ import HeaderNav from '@/components/HeaderNav.vue'
       HelloWorld,
       CircularOverlay,
       TextOverlay,
-      AuthGuard,
 
       MunicipioItem,
       MunicipioListar,

@@ -18,4 +18,10 @@ export default defineConfig({
     port: 5173,
     host: 'localhost'
   },
+  build: {
+    rollupOptions: {
+      // https://rollupjs.org/configuration-options/
+      external: ['v-network-graph/lib/modules/vector2d']
+    },
+  },
 })

@@ -9,9 +9,6 @@ import HelloWorld    from '@/components/HelloWorld.vue'
 
         <div class="wrapper">
             <HelloWorld msg="Path Finder">
-              <nav>
-                <RouterLink v-for="item, i in menuItems" :to="item.path">{{ item.title }}</RouterLink>
-              </nav> 
             </HelloWorld>
         </div>
     </header>

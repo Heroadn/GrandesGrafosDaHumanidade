@@ -8,7 +8,8 @@ import MapaListarView from '../views/Mapa/MapaListarView.vue'
 import VeiculoListarView from '../views/Veiculo/VeiculoListarView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  //history: createWebHistory(import.meta.env.BASE_URL)
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -26,17 +27,17 @@ const router = createRouter({
     {
       path: '/municipio_listar',
       name: 'municipio_listar',
-      component: () => MunicipioListarView
+      component: MunicipioListarView
     },
     {
       path: '/veiculo_listar',
       name: 'veiculo_listar',
-      component: () => VeiculoListarView
+      component: VeiculoListarView
     },
     {
       path: '/mapa_listar',
       name: 'mapa_listar',
-      component: () => MapaListarView
+      component: MapaListarView
     }
   ]
 })

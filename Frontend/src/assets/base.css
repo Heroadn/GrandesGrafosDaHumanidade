@@ -85,7 +85,7 @@ body {
     Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
-  background-image: url('src/assets/florest_raimo.jpg');
+  background-image: url('@/assets/florest_raimo.jpg');
   background-size: cover;
   background-repeat: no-repeat;
 

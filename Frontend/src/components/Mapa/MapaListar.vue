@@ -154,7 +154,6 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
 
   import { ForceLayout } from "v-network-graph/lib/force-layout"
   import type { ForceNodeDatum, ForceEdgeDatum } from "v-network-graph/lib/force-layout"
-  import { add } from 'v-network-graph/lib/modules/vector2d';
   import { ref, type Ref, reactive } from 'vue';
 
   interface Node extends vNG.Node {
@@ -362,7 +361,7 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
                     (element:any) => this._createNodeName(element.source, element.destination));
 
                 //adiciona nodo e edges
-                this.add(
+                this.addNode(
                   {name: source, color: "red", size: 10}, 
                   edges)
               }
@@ -407,7 +406,7 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           
           this.paths[trajeto.shortestDistance] = {edges: result}
         },
-        add(
+        addNode(
           node: {name: string, color: string, size: number}, 
           edges: [{source: '', target: '', weight: '', width: number, color: string, dashed: boolean}])
         {

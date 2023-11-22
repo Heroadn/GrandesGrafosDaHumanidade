@@ -50,15 +50,15 @@ import HeaderNav from '@/components/HeaderNav.vue'
       miniMenu: true,
       darkMode: true,
       menuItems: [
-          { title: 'Municipios', path: '/Municipio_Listar', icon: 'face' },
-          { title: 'Veiculos', path: '/Veiculo_Listar', icon: 'face' },
-          { title: 'Mapa', path: '/Mapa_Listar', icon: 'lock_open' },
+          { title: 'Municipios', path: '/municipio_listar', icon: 'face' },
+          { title: 'Veiculos', path: '/veiculo_listar', icon: 'face' },
+          { title: 'Mapa', path: '/mapa_listar', icon: 'lock_open' },
      ],
      testMenu:[
       {
         name: 'Mapa',
         icon: { text: 'map', class: 'material-icons-outlined'  },
-        href: '/Mapa_Listar',
+        href: '/mapa_listar',
       },
       {
         name: 'Listar',
@@ -67,12 +67,12 @@ import HeaderNav from '@/components/HeaderNav.vue'
           {
             name: 'Municipios',
             icon: { text: 'settings', class: 'material-icons-outlined' },
-            href: '/Municipio_Listar',
+            href: '/municipio_listar',
           },
           {
             name: 'Veiculos',
             icon: { text: 'settings', class: 'material-icons-outlined' },
-            href: '/Veiculo_Listar',
+            href: '/veiculo_listar',
           },
         ]
       }

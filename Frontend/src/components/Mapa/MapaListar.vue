@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MapaPesquisar from './MapaPesquisar.vue';
+import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
 </script>
 
 <template>
@@ -7,50 +8,58 @@ import MapaPesquisar from './MapaPesquisar.vue';
     <v-col>
       <div style="float: right; position: absolute;z-index: 1;">
         <v-app id="app-container">
-        <v-row>
-          <v-col>
-            <v-row>
-              <v-btn
-              color="black"
-              type="submit"
-              @click="openMapMenu">
-              Pesquisar
-              </v-btn>
-            </v-row>
-            
-            <v-row v-if="isMenu">
-              <v-slider
-                label = "Dashed"
-                :v-model:modelValue="configs.edge.normal.dasharray"
-                max="8">
-              </v-slider>
-            </v-row>
-            <v-row v-if="isMenu">
-              <!--configs.edge.normal.color-->
-              <v-slider
-                label="R"
-                :v-model="red"
-                max="255">
-              </v-slider>
-            </v-row>
-            <v-row v-if="isMenu">
-              <v-slider
-                label="G"
-                :v-model="green"
-                max="255">
-              </v-slider>
-            </v-row>
-            <v-row v-if="isMenu">
-              <v-slider
-                label="B"
-                :v-model="blue"
-                max="255">
-              </v-slider>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-app>
-    </div>     
+          <v-row>
+            <v-col>
+              <v-row>
+                <v-btn
+                block
+                color="black"
+                type="submit"
+                @click="openMapMenu">
+                Procurar
+                </v-btn>
+              </v-row>
+              <v-row>
+                <v-btn
+                block
+                color="black"
+                type="submit"
+                @click="resetar">
+                Resetar
+                </v-btn>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+          </v-row>
+          <v-row>
+          </v-row>
+          <v-row>
+          </v-row>
+          <v-row>
+            <v-btn
+            icon=" mdi-information-box-outline"
+            @click="openInfoMenu"/>
+          </v-row>
+        </v-app>
+      </div>     
+
+      <!--
+          <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  color="black"
+                  v-bind="props">
+                  Pesquisar
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item style="max-height: 20vh;">
+                  <MapaPesquisar @searchResults="update"/>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+      -->
       
       <v-network-graph
           class="graph"
@@ -60,6 +69,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
           :paths="paths"
           :configs="configs"
           :layers="layers"
+          :event-handlers="eventHandlers"
         >
           <template #edge-label="{ edge, ...slotProps }">
             <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
@@ -110,6 +120,29 @@ import MapaPesquisar from './MapaPesquisar.vue';
       </v-card>
     </v-overlay>
   </v-card>
+
+  <v-card>
+    <v-overlay cover
+    :model-value="overlayInfoMenu"
+    update="false"
+    class="align-center  justify-center">
+      <v-card class="cardColor mx-auto pa-6" dark>
+        Clique em Procurar, para encontrar o caminho de menor custo
+        <br>
+        Clique no primeiro nodo para selecionar a orim,
+        os nodos subsequentes clicados sao destino,
+        ao final ele dara o caminho de menor custo
+        <br>        
+        Clique em resetar para resetar os caminhos e o
+        primeiro nodo clicado
+      </v-card>
+    </v-overlay>
+  </v-card>
+
+  <MapaSelecionar 
+      :source="caminhoSelecionado.source"
+      :target="caminhoSelecionado.target"
+      @searchResults="update"/>
 </template>
 
 <script lang="ts">
@@ -121,6 +154,8 @@ import MapaPesquisar from './MapaPesquisar.vue';
 
   import { ForceLayout } from "v-network-graph/lib/force-layout"
   import type { ForceNodeDatum, ForceEdgeDatum } from "v-network-graph/lib/force-layout"
+  import { add } from 'v-network-graph/lib/modules/vector2d';
+  import { ref, type Ref, reactive } from 'vue';
 
   interface Node extends vNG.Node {
     size: number
@@ -132,8 +167,62 @@ import MapaPesquisar from './MapaPesquisar.vue';
     width: number
     color: string
     dashed?: boolean
+  }  
+
+  class CaminhoSelecionado extends Array {
+    LIMIT = 2
+    source = this[0]
+    target = this[1]
+
+    constructor(...args:any) {
+        super(...args);
+        this[0] = ''
+        this[1] = ''
+    }
+    unshift(value: string)
+    {
+      let result = super.unshift(value);
+
+      this.source = this[0]
+      this.target = this[1]
+      console.log(this.source, this.target)
+      if(this.length == this.LIMIT)
+      {
+        result = super.pop()
+        super.pop()
+        super.unshift(result)
+      }
+
+      return result;
+    }
+    push(value: string)
+    {
+      let result = super.unshift(value);
+    
+      if(this.source == undefined)
+        this.source = value
+      else 
+        this.target = value
+      return result
+    }
+    reset()
+    {
+      this.source = undefined
+      this.target = undefined
+    }
   }
 
+  let caminhoSelecionado = ref(new CaminhoSelecionado()) as Ref<CaminhoSelecionado>
+
+  let eventHandlers: vNG.EventHandlers = {
+  "node:click": ({ node }) => {
+      caminhoSelecionado.value.push(node);
+    },
+  }
+
+  //TODO: mostrar selecionado tanto para overlay
+  //quando para nodos clicados
+  
   export default {
       computed:
       {
@@ -229,6 +318,7 @@ import MapaPesquisar from './MapaPesquisar.vue';
           },
           isLoaded: false,
           overlayMapMenu: false,
+          overlayInfoMenu: false,
           isMenu: false,
           red: 0,
           green: 0,
@@ -333,12 +423,29 @@ import MapaPesquisar from './MapaPesquisar.vue';
         {
           this.overlayMapMenu = true;
         },
+        openInfoMenu()
+        {
+          this.overlayInfoMenu = true;
+        },
+        resetar()
+        {
+          this.paths = {}
+          caminhoSelecionado.value.reset()
+        },
         _createNodeName(source:string, destination: string)
         {
           return source + '_' + destination
+        },
+        "node:click"(node:any){  
+          console.log("xD")
+        },
+        teste(node:any)
+        {
+
         }
       },
   };
+
 </script>
 
 <style scoped>

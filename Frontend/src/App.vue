@@ -12,6 +12,7 @@ import MunicipioPesquisar from './components/Municipio/MunicipioPesquisar.vue'
 
 import MapaListar    from './components/Mapa/MapaListar.vue'
 import MapaPesquisar from './components/Mapa/MapaPesquisar.vue'
+import MapaSelecionar from './components/Mapa/MapaSelecionar.vue'
 
 import VeiculoListar from './components/Veiculo/VeiculoListar.vue'
 import VeiculoItem   from './components/Veiculo/VeiculoItem.vue'
@@ -34,6 +35,8 @@ import HeaderNav from '@/components/HeaderNav.vue'
       MunicipioPesquisar,
 
       MapaListar,
+      MapaPesquisar,
+      MapaSelecionar,
 
       
       VeiculoItem,
@@ -118,7 +121,7 @@ import HeaderNav from '@/components/HeaderNav.vue'
     <template #headerItem="{ header }"></template>
   </VueAwesomeSideBar>
 
-  <v-card class="cardColor">
+  <v-card class="cardColor" >
     <v-container>
       <v-col>
         <v-row>

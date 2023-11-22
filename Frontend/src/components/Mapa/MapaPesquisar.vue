@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
+import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
 </script>
   
 <template>
@@ -26,18 +27,8 @@ import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
               Destino
             </v-btn>
           </v-col>
-          <v-col>
-            <v-btn
-              color="purple-lighten-2"
-              variant="outlined" 
-              type="submit"
-              @click="procurar">
-              Pesquisar
-            </v-btn>
-          </v-col>
         </v-row>  
     </v-container>
-
     
   <v-overlay cover
     :model-value="overlay"
@@ -49,22 +40,49 @@ import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
         <slot></slot>
       </v-card>
     </v-overlay>
+
+    <MapaSelecionar 
+      :source="buttons['sourceBtn'].value"
+      :target="buttons['targetBtn'].value"
+      @searchResults="update"/>
 </template>
 
 <script lang="ts">
   import type { AxiosResponse } from 'axios';
   import { mapStores } from 'pinia'
   import { useTrajetoService } from '@/stores/trajetoService'
-  import { Trajeto } from '@/stores/trajetoService'
-  /*
-  import { EventHandlers } from "v-network-graph"
-  const eventHandlers: EventHandlers = {
-    "node:click": ({ node, event }) => {
-      if (event.ctrlKey) {
-        // ...
-      }
+  import type { Trajeto } from '@/stores/trajetoService'
+
+  class ActionButton
+  {
+    value =  '';
+    alternativeIcon = ''; 
+    currentIcon =  ''; 
+    isOn =  false;
+
+    constructor(
+      altIcon: string,
+      currentIcon: string,
+      value: string = '')
+    {
+      this.value = value;
+      this.alternativeIcon = altIcon;
+      this.currentIcon = currentIcon;
     }
-  }*/
+
+    onAction(data: string){ 
+      this.value = data
+      this.isOn = true
+      this.swapIcon()
+    }
+
+    swapIcon()
+    {
+      let tmp = this.currentIcon
+      this.currentIcon = this.alternativeIcon
+      this.alternativeIcon = tmp
+    }
+  }
 
   export default {
       computed:
@@ -79,40 +97,12 @@ import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
           isLoading: false,
           overlay: false,
           buttons: {
-            'sourceBtn': {
-              value: '',
-              altIcon: 'mdi-check', 
-              currentIcon: 'mdi-alert-circle',
-              isOn: false,
-              onAction(data: string){ 
-                this.value = data
-                this.isOn = true
-                this.swapIcon()
-              },
-              swapIcon()
-              {
-                let tmp = this.currentIcon
-                this.currentIcon = this.altIcon
-                this.altIcon = tmp
-              }
-            },
-            'targetBtn': {
-              value: '',
-              altIcon: 'mdi-check', 
-              currentIcon: 'mdi-alert-circle', 
-              isOn: false,
-              onAction(data: string){ 
-                this.value = data
-                this.isOn = true
-                this.swapIcon()
-              },
-              swapIcon()
-              {
-                let tmp = this.currentIcon
-                this.currentIcon = this.altIcon
-                this.altIcon = tmp
-              }
-            }
+            'sourceBtn': new ActionButton(
+              'mdi-check',
+              'mdi-alert-circle'),
+            'targetBtn': new ActionButton(
+              'mdi-check',
+              'mdi-alert-circle')
           } as any,
           selectedBtn: '' as string
         };
@@ -126,45 +116,15 @@ import MunicipioListar from '@/components/Municipio/MunicipioListar.vue';
         async load() 
         {
         },
-        async request(
-          response: AxiosResponse<any, any>, 
-          success : (response: AxiosResponse<any, any>) => void,
-          failed  : (response: AxiosResponse<any, any>) => void)
-        {
-          let status = (await response.status);
-          if(status == 200)
-            success(response);
-          else
-            failed(response);
-        },
-        async procurar()
-        {
-          const sourceBtn = this.buttons['sourceBtn'];
-          const targetBtn = this.buttons['targetBtn'];
-
-          const source = sourceBtn.value;
-          const target = targetBtn.value;
-
-          //if the user didnt selected anything
-          if(sourceBtn.value == '' && targetBtn.value == '')
-            return;
-
-          let response = await this.trajetoServiceStore.shortestPath(source, target);
-          this.request(response, 
-          successRes => 
-            { 
-              this.shortest_distance = response.data.shortest_distance;
-              this.shortest_path = response.data.shortest_path;
-              this.$emit('searchResults', new Trajeto(this.shortest_distance, this.shortest_path));
-            }, 
-          failedRes => {})
-        },
         onClick(nome:string)
         {
-          console.log(nome)
           this.overlay = false
           this.buttons[this.selectedBtn].onAction(nome);
-        }
+        },
+        update(trajeto: Trajeto)
+        {
+          this.$emit('searchResults', trajeto);
+        },
       },
   };
 </script>

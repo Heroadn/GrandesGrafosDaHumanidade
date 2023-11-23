@@ -45,9 +45,12 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
       <v-col>
         <v-row>
           <v-btn
-          icon="mdi-redo"
-          size="x-large"
+          size="10vh"
+          class="rounded-circle"
           @click="resetar">
+            <v-icon size="4.2vh">
+              mdi-redo
+            </v-icon>
           </v-btn>
         </v-row>
         <v-row>
@@ -58,11 +61,13 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           >
             <template v-slot:activator="{ props }">
               <v-btn
-                color="black"
-                icon="mdi-map"
-                size="x-large"
-                v-bind="props"
-              >
+              color="black"
+              size="10vh"
+              class="rounded-circle"
+              v-bind="props">
+                <v-icon size="4.2vh">
+                  mdi-map
+                </v-icon>
               </v-btn>
             </template>
 
@@ -82,11 +87,13 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           >
             <template v-slot:activator="{ props }">
               <v-btn
-                color="white"
-                icon="mdi-information-box-outline"
-                size="x-large"
-                v-bind="props"
-              >
+              color="white"
+              size="10vh"
+              class="rounded-circle"
+              v-bind="props">
+                <v-icon size="4.2vh">
+                  mdi-information-box-outline
+                </v-icon>
               </v-btn>
             </template>
 

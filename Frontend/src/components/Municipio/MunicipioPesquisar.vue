@@ -51,7 +51,10 @@
         },
         procurar()
         {
-          this.resultados = this.municipios.filter(municipio => municipio.nome.match(this.nome));
+
+          const regex = new RegExp(this.nome, 'i');
+          this.resultados 
+            = this.municipios.filter(municipio => regex.test(municipio.nome));
           this.$emit('searchResults', this.resultados);
         }
       },

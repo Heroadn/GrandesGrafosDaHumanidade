@@ -12,8 +12,7 @@ import MunicipioPesquisar from './MunicipioPesquisar.vue';
         <v-row v-if="isLoaded">
           <v-col v-for="municipio, i in municipiosSearch"
             :key="i"
-            cols="12"
-            md="4">
+            cols="12">
             <MunicipioItem 
               :municipio="municipio" @onClick="onClick"/>
           </v-col>

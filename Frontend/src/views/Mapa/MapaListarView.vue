@@ -10,8 +10,6 @@ import '@mdi/font/css/materialdesignicons.css'
 </template>
 
 <script lang="ts">
-  //TODO: transformar em componente
-  import { mapStores } from 'pinia'
 
   export default {
       computed:

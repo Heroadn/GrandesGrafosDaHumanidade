@@ -4,111 +4,168 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
 </script>
 
 <template>
-  <v-row>
-    <v-col>
-      <div style="float: right; position: absolute;z-index: 1;">
-        <v-app id="app-container">
+  <!--
+  <div style="float: right; position: absolute;z-index: 1;">
+    <v-app id="app-container">
+      <v-row>
+        <v-col>
           <v-row>
-            <v-col>
-              <v-row>
-                <v-btn
-                block
-                color="black"
-                type="submit"
-                @click="openMapMenu">
-                Procurar
-                </v-btn>
-              </v-row>
-              <v-row>
-                <v-btn
-                block
-                color="black"
-                type="submit"
-                @click="resetar">
-                Resetar
-                </v-btn>
-              </v-row>
-            </v-col>
-          </v-row>
-          <v-row>
-          </v-row>
-          <v-row>
-          </v-row>
-          <v-row>
+            <v-btn
+            icon="mdi-redo"
+            @click="resetar">
+            </v-btn>
           </v-row>
           <v-row>
             <v-btn
-            icon=" mdi-information-box-outline"
-            @click="openInfoMenu"/>
+            block
+            color="black"
+            type="submit"
+            icon="mdi-map"
+            @click="openMapMenu">
+            </v-btn>
           </v-row>
-        </v-app>
-      </div>     
+        </v-col>
+      </v-row>
+      <v-row>
+      </v-row>
+      <v-row>
+      </v-row>
+      <v-row>
+      </v-row>
+      <v-row>
+        <v-btn
+        icon="mdi-information-box-outline"
+        @click="openInfoMenu"/>
+      </v-row>
+    </v-app>
+  </div>-->
 
-      <!--
-          <v-menu>
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  color="black"
-                  v-bind="props">
-                  Pesquisar
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item style="max-height: 20vh;">
-                  <MapaPesquisar @searchResults="update"/>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-      -->
-      
-      <v-network-graph
-          class="graph"
-          :nodes="nodes"
-          :edges="edges"
-          :layouts="layouts"
-          :paths="paths"
-          :configs="configs"
-          :layers="layers"
-          :event-handlers="eventHandlers"
-        >
-          <template #edge-label="{ edge, ...slotProps }">
-            <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
-          </template>
+  <v-app id="app-container" style="position: absolute;z-index: 2;padding: 12px 12px 12px 12px;">
+    <v-row>
+      <v-col>
+        <v-row>
+          <v-btn
+          icon="mdi-redo"
+          size="x-large"
+          @click="resetar">
+          </v-btn>
+        </v-row>
+        <v-row>
+          <v-menu
+            v-model="menuMapa"
+            :close-on-content-click="false"
+            location="end"
+          >
+            <template v-slot:activator="{ props }">
+              <v-btn
+                color="black"
+                icon="mdi-map"
+                size="x-large"
+                v-bind="props"
+              >
+              </v-btn>
+            </template>
 
-          <template #badge="{ scale }" v-if="false">
-          <!--
-            If the `view.scalingObjects` config is `false`(default),
-            scaling does not change the display size of the nodes/edges.
-            The `scale` is passed as a scaling factor to implement
-            this behavior. -->
-            <circle
-              v-for="(pos, node) in layouts.nodes"
-              :key="node"
-              :cx="10"
-              :cy="10"
-              :r="4 * scale"
-              :fill="nodes[node].active ? '#00cc00' : '#ffffff'"
-              style="pointer-events: none"
-            />
-          </template>
-
-          <!-- Additional layer -->
-          <template #menuMap>
-            <v-card color="black">
-              <v-row>
-                <v-btn
-                  color="green-lighten-2"
-                  type="submit"
-                  @click="openMapMenu">
-                  Pesquisar
-                </v-btn>
-              </v-row>
+            <v-card height="9vh" style="overflow: hidden;">
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <MapaPesquisar @searchResults="update"/>
+              </v-card-actions>
             </v-card>
-          </template>
-            
-      </v-network-graph>
-    </v-col>
-  </v-row>
+          </v-menu>
+        </v-row>
+        <v-row>
+          <v-menu
+            v-model="menuInfo"
+            :close-on-content-click="false"
+            location="end"
+          >
+            <template v-slot:activator="{ props }">
+              <v-btn
+                color="white"
+                icon="mdi-information-box-outline"
+                size="x-large"
+                v-bind="props"
+              >
+              </v-btn>
+            </template>
+
+            <v-card height="25vh" style="overflow: hidden;">
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-card-text>
+                  
+                  Clique em 
+                  <v-btn
+                  color="black"
+                  icon="mdi-map"/>
+                  para encontrar o caminho de menor custo
+                  <br>
+                  Nodos podem ser clicados,
+                  O primeiro a origem os subsequentes sao destino desejado
+                  <br>        
+                  Clique em 
+                  <v-btn
+                  color="black"
+                  icon="mdi-redo"/>
+                  para resetar os caminhos e o
+                  os nodos clicados
+                </v-card-text>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-app>
+
+  <v-network-graph
+        class="graph"
+        :nodes="nodes"
+        :edges="edges"
+        :layouts="layouts"
+        :paths="paths"
+        :configs="configs"
+        :layers="layers"
+        :event-handlers="eventHandlers"
+      >
+        <template #edge-label="{ edge, ...slotProps }">
+          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" /> 
+        </template>
+
+        <template #badge="{ scale }" v-if="false">
+        <!--
+          If the `view.scalingObjects` config is `false`(default),
+          scaling does not change the display size of the nodes/edges.
+          The `scale` is passed as a scaling factor to implement
+          this behavior. -->
+          <circle
+            v-for="(pos, node) in layouts.nodes"
+            :key="node"
+            :cx="10"
+            :cy="10"
+            :r="4 * scale"
+            :fill="nodes[node].active ? '#00cc00' : '#ffffff'"
+            style="pointer-events: none"
+          />
+        </template>
+
+        <!-- Additional layer -->
+        <template #menuMap>
+          <v-card color="black">
+            <v-row>
+              <v-btn
+                color="green-lighten-2"
+                type="submit"
+                @click="openMapMenu">
+                Pesquisar
+              </v-btn>
+            </v-row>
+          </v-card>
+        </template>
+          
+  </v-network-graph>
+
 
   <v-card>
     <v-overlay cover
@@ -144,6 +201,23 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
       :target="caminhoSelecionado.target"
       @searchResults="update"/>
 </template>
+
+<!--
+    <v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn
+            color="black"
+            v-bind="props">
+            Pesquisar
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item style="max-height: 20vh;">
+            <MapaPesquisar @searchResults="update"/>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+-->
 
 <script lang="ts">
   import { mapStores } from 'pinia'
@@ -219,9 +293,6 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
     },
   }
 
-  //TODO: mostrar selecionado tanto para overlay
-  //quando para nodos clicados
-  
   export default {
       computed:
       {
@@ -246,8 +317,6 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           configs :{
             view: {
               scalingObjects: true,
-              minZoomLevel: 0.60,
-              maxZoomLevel: 0.60,
               layoutHandler: new ForceLayout({
               positionFixedByDrag: false,
               positionFixedByClickWithAltKey: true,
@@ -298,7 +367,7 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
               edge: {
                 normal: {
                   color: (edge: any) => "blue",
-                  dasharray: (edge: any) =>  (edge.dashed ? "4" : "0")
+                  dasharray: (edge: any) =>  (edge.dashed ? "0" : "0")
                 },
                 marker: {
                   source: { type: "arrow" },
@@ -319,6 +388,9 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           overlayMapMenu: false,
           overlayInfoMenu: false,
           isMenu: false,
+          disableNodes: false,
+          menuMapa: false,
+          menuInfo: false,
           red: 0,
           green: 0,
           blue: 0
@@ -410,6 +482,9 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           node: {name: string, color: string, size: number}, 
           edges: [{source: '', target: '', weight: '', width: number, color: string, dashed: boolean}])
         {
+          if(this.disableNodes)
+            return;
+
           this.nodes[node.name] = node;
           
           edges.forEach(edge => {

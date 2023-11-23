@@ -28,7 +28,8 @@
   --vt-c-text-dark-red-gold: rgba(255, 183, 77, 1);
   --vt-c-text-dark-red-green: rgba(66, 184, 131, 1);
   
-  --vt-card-main: rgba(255, 255, 255, 0.5) !important;
+  --vt-card-main: rgba(255, 255, 255, 0.0) !important;
+  --vt-background-light-2: rgba(60, 60, 60, 0.12);
 }
 
 /* semantic color variables for this project */
@@ -69,34 +70,26 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
+  margin: 0px;
   position: relative;
   font-weight: normal;
 }
 
 body {
   min-height: 100vh;
-
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--vt-background-light-2);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
-  background-image: url('@/assets/florest_raimo.jpg');
+  /*background-image: url('@/assets/wave-haikei.svg');*/
   background-size: cover;
   background-repeat: no-repeat;
 
   image-rendering: -webkit-optimize-contrast;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.cardColor {
-  height: 90vh;
-  /*color: var(--vt-c-text-dark-red-gold) !important;
-  background-color: var(--vt-c-text-dark-red-transparent) !important;
-  border-color: rgba(235, 235, 235, 0.0) !important;*/
 }

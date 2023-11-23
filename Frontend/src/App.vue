@@ -49,6 +49,8 @@ import HeaderNav from '@/components/HeaderNav.vue'
       collapsed:false,
       miniMenu: true,
       darkMode: true,
+      devMode: true,
+      isResolutionAbove: false,
       menuItems: [
           { title: 'Municipios', path: '/municipio_listar', icon: 'face' },
           { title: 'Veiculos', path: '/veiculo_listar', icon: 'face' },
@@ -90,14 +92,15 @@ import HeaderNav from '@/components/HeaderNav.vue'
 
 
 <template> 
+  <RouterView />
   <VueAwesomeSideBar
-      v-model:miniMenu="miniMenu"
-      v-model:collapsed="collapsed"
-      :menu="testMenu"
-      :dark="darkMode"
-      vueRouterEnabel
-    >
-
+    v-if="devMode == false"
+    v-model:miniMenu="miniMenu"
+    v-model:collapsed="collapsed"
+    :menu="testMenu"
+    :dark="darkMode"
+    vueRouterEnabel
+  >
     <template v-if="miniMenu == false" #header>
       <v-row>
         <v-col cols="4" v-if="!collapsed">
@@ -115,26 +118,19 @@ import HeaderNav from '@/components/HeaderNav.vue'
         </v-col>
       </v-row>
     </template>
-
-    <template #headerItem="{ header }"></template>
   </VueAwesomeSideBar>
-
-  <v-card class="cardColor" >
-    <v-container>
-      <v-col>
-        <v-row>
-            <RouterView />
-        </v-row>
-      </v-col>
-    </v-container>
-  </v-card>
 </template>
 
 <style scoped>
 
-.cardColor
+.v-row
 {
-  background-color: var(--vt-card-main)
+  padding: 0px 0px 0px 0px;
+}
+
+.v-col
+{
+  padding: 0px 0px 0px 0px;
 }
 
 header {

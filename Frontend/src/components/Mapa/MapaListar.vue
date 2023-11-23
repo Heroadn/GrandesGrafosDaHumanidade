@@ -6,6 +6,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
 </script>
 
 <!-- TODO: MOSTRAR DISTANCIA TOTAL PERCORRIDA -->
+<!-- TODO: EFEITO DE OPACIDADE COM CANVAS .v-ng-canvas.show  -->
 <template>
   <v-app id="app-container" style="position: absolute;z-index: 2;padding: 12px 12px 12px 12px;">
     <v-row>
@@ -58,6 +59,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
         </v-row>
         <v-row>
           <v-menu
+            v-if="false"
             v-model="menuInfo"
             :close-on-content-click="false"
             location="end"

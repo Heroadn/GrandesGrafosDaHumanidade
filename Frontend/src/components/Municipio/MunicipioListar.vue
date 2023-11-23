@@ -4,26 +4,23 @@ import MunicipioPesquisar from './MunicipioPesquisar.vue';
 </script>
 
 <template>
-  
-  <v-card>
-    <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh; max-width: 60vh;">
-      <MunicipioPesquisar @searchResults="update" :municipios="municipios"/>
-      
-      <perfect-scrollbar>
-        <v-item-group multiple>
-          <v-row v-if="isLoaded">
-            <v-col v-for="municipio, i in municipiosSearch"
-              :key="i"
-              cols="12"
-              md="4">
-              <MunicipioItem 
-                :municipio="municipio" @onClick="onClick"/>
-            </v-col>
-          </v-row>
-        </v-item-group>
-      </perfect-scrollbar>
-    </v-container>
-  </v-card>
+  <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh; max-width: 60vh;">
+    <MunicipioPesquisar @searchResults="update" :municipios="municipios"/>
+    
+    <perfect-scrollbar>
+      <v-item-group multiple>
+        <v-row v-if="isLoaded">
+          <v-col v-for="municipio, i in municipiosSearch"
+            :key="i"
+            cols="12"
+            md="4">
+            <MunicipioItem 
+              :municipio="municipio" @onClick="onClick"/>
+          </v-col>
+        </v-row>
+      </v-item-group>
+    </perfect-scrollbar>
+  </v-container>
 </template>
 
 <script lang="ts">

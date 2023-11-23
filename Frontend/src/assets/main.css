@@ -3,7 +3,8 @@
 #app {
   padding: 0px 0px 0px 0px;
   font-weight: normal;
-  overflow: hidden
+  overflow: hidden;
+  font-size: 1rem;
 }
 
 .graph {
@@ -45,5 +46,27 @@ a:active {
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: black;
+  }
+
+  h5 {
+    font-size: 1rem;
+    color: black;
+  }
+
+  .v-field
+  {
+    font-size: 1rem;
+  }
+
+  .v-select label {
+    font-size: 1.2rem;
   }
 }

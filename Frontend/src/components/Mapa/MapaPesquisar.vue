@@ -4,47 +4,80 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
 </script>
   
 <template>
-  <!--color="orange-lighten-2" variant="text"-->
-  <v-container v-if="isLoading" class="pa-1"  style="min-height: 100vh;">
-        <v-row no-gutters>
-          <v-col>
-            <v-btn
-              :prepend-icon="buttons['sourceBtn'].currentIcon"
-              color="purple-lighten-2"
-              variant="outlined" 
-              type="submit"
-              @click="selectedBtn = 'sourceBtn'; overlay = true ">
-              Origem
-            </v-btn>
-          </v-col>
-          <v-col>
-            <v-btn
-              :prepend-icon="buttons['targetBtn'].currentIcon"
-              color="purple-lighten-2"
-              variant="outlined" 
-              type="submit"
-              @click="selectedBtn = 'targetBtn'; overlay = true">
-              Destino
-            </v-btn>
-          </v-col>
-        </v-row>  
-    </v-container>
-    
-  <v-overlay cover
-    :model-value="overlay"
-    update="false"
-    class="align-center  justify-center">
-      <v-card 
-        class="cardColor mx-auto pa-6" dark>
-        <MunicipioListar @onClick="onClick"/>
-        <slot></slot>
-      </v-card>
-    </v-overlay>
+  <!--:prepend-icon="buttons['sourceBtn'].currentIcon"-->
 
-    <MapaSelecionar 
-      :source="buttons['sourceBtn'].value"
-      :target="buttons['targetBtn'].value"
-      @searchResults="update"/>
+  <v-menu
+    v-model="menuOrigem"
+    :close-on-content-click="false"
+    location="bottom"
+  >
+    <template v-slot:activator="{ props }">
+      <v-card
+        color="black"
+        variant="outlined" 
+        type="submit"
+        width="30vh"
+        v-bind="props"
+        @click="selectedBtn = 'sourceBtn';">
+        <v-container>
+          <v-row>
+            <h4 style="color: black;">Origem</h4>
+          </v-row>
+          <v-row>
+            <h5 style="margin-left:2vh;">{{ buttons['sourceBtn'].value }}</h5>
+          </v-row>
+        </v-container>
+      </v-card>
+    </template>
+
+    <v-card style="overflow: hidden;">
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-card-text>
+          <MunicipioListar @onClick="onClick"/>
+        </v-card-text>
+      </v-card-actions>
+    </v-card>
+  </v-menu>
+
+  <v-menu
+    v-model="menuDestino"
+    :close-on-content-click="false"
+    location="bottom"
+  >
+    <template v-slot:activator="{ props }">
+      <v-card
+        color="black"
+        variant="outlined" 
+        type="submit"
+        width="30vh"
+        v-bind="props"
+        @click="selectedBtn = 'targetBtn';">
+        <v-container>
+          <v-row>
+            <h4 style="color: black;">Destino</h4>
+          </v-row>
+          <v-row>
+            <h5 style="margin-left:2vh;">{{ buttons['targetBtn'].value }}</h5>
+          </v-row>
+        </v-container>
+      </v-card>
+    </template>
+
+    <v-card style="overflow: hidden;">
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-card-text>
+          <MunicipioListar @onClick="onClick"/>
+        </v-card-text>
+      </v-card-actions>
+    </v-card>
+  </v-menu>
+
+  <MapaSelecionar 
+    :source="buttons['sourceBtn'].value"
+    :target="buttons['targetBtn'].value"
+    @searchResults="update"/>
 </template>
 
 <script lang="ts">
@@ -96,13 +129,17 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
           shortest_path: [] as any,
           isLoading: false,
           overlay: false,
+          menuOrigem: false,
+          menuDestino: false,
           buttons: {
             'sourceBtn': new ActionButton(
               'mdi-check',
-              'mdi-alert-circle'),
+              'mdi-alert-circle',
+              'Selecione uma cidade'),
             'targetBtn': new ActionButton(
               'mdi-check',
-              'mdi-alert-circle')
+              'mdi-alert-circle',
+              'Selecione uma cidade')
           } as any,
           selectedBtn: '' as string
         };
@@ -119,6 +156,8 @@ import MapaSelecionar from '@/components/Mapa/MapaSelecionar.vue';
         onClick(nome:string)
         {
           this.overlay = false
+          this.menuOrigem = false
+          this.menuDestino = false
           this.buttons[this.selectedBtn].onAction(nome);
         },
         update(trajeto: Trajeto)
@@ -147,10 +186,9 @@ h3 {
   color: var(--color-heading);
 }
 
-.graph {
-  width: 95vh;
-  height: 90vh;
-  border: 0px solid #000;
+h5
+{
+  margin-left:2vh;
 }
 
 @media (min-width: 1024px) {
@@ -183,6 +221,18 @@ h3 {
 
   .item:last-of-type:after {
     display: none;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  h4 {
+    margin-bottom: 0.4rem;
+    color: black;
+  }
+
+  h5 {
+    margin-bottom: 0.4rem;
+    color: black;
   }
 }
 </style>

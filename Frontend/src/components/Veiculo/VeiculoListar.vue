@@ -4,27 +4,12 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
 </script>
 
 <template>
-  <v-card>
-    <v-container class="pa-1" style="max-height: 100vh; min-width: 10vh; max-width: 60vh;">
-      <VeiculoPesquisar @searchResults="update" :veiculos="veiculos"/>
-      
-      <perfect-scrollbar>
-        <v-item-group multiple>
-          <v-row v-if="isLoaded">
-            <v-col v-for="veiculo, i in veiculosSearch"
-              :key="i"
-              cols="12"
-              md="4">
-              <VeiculoItem 
-                :veiculo="veiculo" @onClick="onClick"/>
-            </v-col>
-          </v-row>
-        </v-item-group>
-      </perfect-scrollbar>
-    </v-container>
-
-    
-  </v-card>
+  <v-select
+    label="Veiculo"
+    :items="veiculosSearch"
+    item-title="nome"
+    @update:modelValue="onClick">
+  </v-select>
 </template>
 
 <script lang="ts">
@@ -43,6 +28,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
         return {
           veiculos: [] as Veiculo[],
           veiculosSearch: [] as Array<Veiculo>,
+          veiculosSelect: [] as string[],
           isLoaded: false,
         };
       },
@@ -62,11 +48,14 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
             let veiculos = (await (await response).data.vehicles)
 
             this.veiculos = veiculos.map((element:any) => 
-              new Veiculo(
+            {
+              this.veiculosSelect.push(element.name)
+              return new Veiculo(
                 element.name, 
                 element.fuel_type, 
                 element.kilometersPerLiter, 
-                element.speedInKmH, ""));
+                element.speedInKmH, "")
+            });
 
             this.isLoaded = true;
           }
@@ -85,10 +74,12 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
         {
           this.veiculos.push(veiculo)
         },
-        onClick(veiculo: Veiculo)
+        onClick(name: string)
         {
+          const veiculo = this.veiculosSearch.filter( 
+            (element:any) => element.nome == name)
+
           this.$emit('onClick', veiculo);
-          console.log(veiculo)
         }
       },
   };

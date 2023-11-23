@@ -336,7 +336,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           isMenu: false,
           isNodesEnabled: true,
           isDistaceEnabled: true,
-          menuMapa: false,
+          menuMapa: true,
           menuInfo: false,
           menuConfig: false,
           red: 0,

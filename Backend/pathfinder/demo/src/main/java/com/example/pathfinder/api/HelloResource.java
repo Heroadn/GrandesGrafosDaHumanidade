@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloResource {
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String index() {
         return "Здравствуйте мои товарищ! Как дела? Вся власть Советам!";
     }

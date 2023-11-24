@@ -30,15 +30,19 @@ version = '0.0.1-SNAPSHOT'
 description = 'PathFinder'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-application {
-    mainClass = 'com.example.pathfinder.PathFinderApplication'
-}
-
 graalvmNative {
-    binaries.all {
-        resources.autodetect()
+    binaries {
+        main{
+            imageName = "PathFinder"
+            mainClass = "com.example.pathfinder.PathFinderApplication"
+            buildArgs.add("-O4")
+        }
     }
-    toolchainDetection = false
+    binaries.configureEach {
+        resources.autodetect()
+
+    }
+    toolchainDetection = true
 }
 
 tasks.withType(JavaCompile) {

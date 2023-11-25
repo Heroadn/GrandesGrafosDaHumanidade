@@ -257,28 +257,13 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           },
           layouts: {
             nodes: {
-            },
-          },
+            } as any,
+          } as any,
           destinations: [] as any,
           configs :{
             view: {
-              scalingObjects: true,
-              layoutHandler: new ForceLayout({
-              positionFixedByDrag: false,
-              positionFixedByClickWithAltKey: true,
-              createSimulation: (d3, nodes, edges) => {
-
-                  // * The following are the default parameters for the simulation.
-                  const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id((d:any) => d.id)
-                  return d3
-                    .forceSimulation(nodes)
-                    .force("edge", forceLink.distance(80).strength(0.01))
-                    .force("charge", d3.forceManyBody())
-                    .force("collide", d3.forceCollide(80).strength(0.1))
-                    .force("center", d3.forceCenter().strength(0.01))
-                    .alphaMin(0.001)
-              }
-              })},
+              scalingObjects: true
+            },
               node: {
                 normal: {
                   type: "circle",
@@ -352,14 +337,14 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
       {
         async load() 
         {
-          this.loadNodes();
+          
+          await this.loadNodes();
+          await this.loadCoordinates();
           this.isLoaded = true; 
         },
         async loadNodes()
         {
-          let response = await this.trajetoServiceStore.allNodes(0);
-
-          this.request(response, 
+          this.request(await this.trajetoServiceStore.allNodes(0), 
           successRes => 
             { 
               let nodes = successRes.data.graph
@@ -387,6 +372,25 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               }
             }, 
           failedRes => {})
+        },
+        async loadCoordinates()
+        {
+        //adicionando coordenadas
+        this.request(await this.trajetoServiceStore.getCoordinates(), 
+            successRes => 
+              { 
+                let coordinates = successRes.data
+                coordinates.forEach((element:any) => {
+                  const source: string = element.name;
+
+                  const node = this.layouts.nodes[source];
+                  this.layouts.nodes[source].x = (parseInt(element.x) * 200);
+                  this.layouts.nodes[source].y = (parseInt(element.y) * 200) - 500;
+                });
+                //this.layouts.nodes['PONTA ALTA'].x = 1
+                //this.layouts.nodes['PONTA ALTA'].y = 2
+              }, 
+            failedRes => {})
         },
         async request(
           response: AxiosResponse<any, any>, 

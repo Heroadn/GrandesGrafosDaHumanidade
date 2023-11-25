@@ -35,6 +35,11 @@ export const useTrajetoService = defineStore('trajetoService', {
             const response = await instance.get(`http://${HOST}/${PATH}/shortest_path/${source}/${destination}`);
             return response;
         },
+        async getCoordinates()
+        {
+            const response = await instance.get(`http://${HOST}/${PATH}/coordinates`);
+            return response;
+        },
         printValues() {
             console.log("ID: " + this.getShortestDistance)
         },

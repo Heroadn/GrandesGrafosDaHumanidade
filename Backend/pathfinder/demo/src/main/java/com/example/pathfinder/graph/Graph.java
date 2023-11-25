@@ -5,11 +5,17 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import com.example.pathfinder.utils.Utils;
+
 public class Graph {
-    private Map<String, LinkedList<Edge>> adjacencyList;
+    private final Map<String, LinkedList<Edge>> adjacencyList;
+
+    private final LinkedList<NodeCoordinate> graphCoordinates;
 
     public Graph() {
+
         this.adjacencyList = new HashMap<>();
+        this.graphCoordinates = Utils.getCoordinatesFromCsv("node_coordinates.csv");
     }
 
     public void addEdge(Edge edge) {
@@ -30,6 +36,10 @@ public class Graph {
 
     public LinkedList<String> getNodes() {
         return new LinkedList<>(adjacencyList.keySet());
+    }
+
+    public LinkedList<NodeCoordinate> getGraphCoordinates() {
+        return graphCoordinates;
     }
 
     public Map<String, LinkedList<Map<String, Object>>> getGraph() {

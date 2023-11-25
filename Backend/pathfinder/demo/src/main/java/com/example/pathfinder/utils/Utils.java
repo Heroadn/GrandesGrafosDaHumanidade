@@ -2,16 +2,55 @@ package com.example.pathfinder.utils;
 
 import com.example.pathfinder.graph.Graph;
 import com.example.pathfinder.graph.Edge;
-import org.springframework.core.io.ClassPathResource;
+import com.example.pathfinder.graph.NodeCoordinate;
 
 import java.io.*;
+import java.util.LinkedList;
+
 
 public class Utils {
 
+    public static LinkedList<NodeCoordinate> getCoordinatesFromCsv(String fileName) {
+        LinkedList<NodeCoordinate> allCoordinates = new LinkedList<>();
+
+        executeFromCsv(fileName, null, allCoordinates);
+
+        return allCoordinates;
+    }
+
     public static Graph createGraphFromCsv(String fileName) {
         System.out.println("Will read from the CSV file and generate a Graph");
-        Graph graph = new Graph();
+        Graph main_graph = new Graph();
 
+        executeFromCsv(fileName, main_graph, null);
+
+        return main_graph;
+    }
+
+
+    public static void insertOnGraph(String[] values, Graph graph){
+        if (values.length >= 3) {
+            String source = values[0].trim();
+            String destination = values[1].trim();
+            int weight = Integer.parseInt(values[2].trim());
+
+            Edge edge = new Edge(source, destination, weight);
+            graph.addEdge(edge);
+        }
+    }
+
+    public static void insertNodeCoordinate(String[] values, LinkedList<NodeCoordinate> allCoordinates){
+        if (values.length >= 3) {
+            String nodeName = values[0].trim();
+            float x = Float.parseFloat(values[1].trim());
+            float y = Float.parseFloat(values[2].trim());
+
+            NodeCoordinate coordinate = new NodeCoordinate(nodeName, x, y);
+            allCoordinates.add(coordinate);
+        }
+    }
+
+    public static void executeFromCsv(String fileName, Graph graph, LinkedList<NodeCoordinate> allCoordinates){
         try {
             InputStream inputStream
                     = Utils.class.getClassLoader().getResourceAsStream(fileName);
@@ -21,13 +60,11 @@ public class Utils {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length >= 3) {
-                    String source = values[0].trim();
-                    String destination = values[1].trim();
-                    int weight = Integer.parseInt(values[2].trim());
 
-                    Edge edge = new Edge(source, destination, weight);
-                    graph.addEdge(edge);
+                if (graph != null) {
+                    insertOnGraph(values, graph);
+                } else if (allCoordinates != null) {
+                    insertNodeCoordinate(values, allCoordinates);
                 }
             }
 
@@ -35,8 +72,6 @@ public class Utils {
             System.out.println("An error occured while reading the CSV!: " + fileName + " ; Exception: " + e);
             e.printStackTrace();
         }
-
-        return graph;
     }
 }
 

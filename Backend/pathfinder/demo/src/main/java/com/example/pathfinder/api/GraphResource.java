@@ -1,6 +1,7 @@
 package com.example.pathfinder.api;
 
 import com.example.pathfinder.graph.Graph;
+import com.example.pathfinder.graph.NodeCoordinate;
 import com.example.pathfinder.graph.Path;
 import com.example.pathfinder.services.GraphService;
 
@@ -45,6 +46,12 @@ public class GraphResource {
         Map<String, LinkedList<String>> response = new HashMap<>();
         response.put("nodes", graph.getNodes());
         return response;
+    }
+
+    @GetMapping("/coordinates")
+    public LinkedList<NodeCoordinate> getCoordinates() {
+        Graph graph = graphService.getGraph();
+        return graph.getGraphCoordinates();
     }
 
     @GetMapping("/content")

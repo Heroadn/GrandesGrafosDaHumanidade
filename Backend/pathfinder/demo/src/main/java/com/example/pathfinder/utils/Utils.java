@@ -45,8 +45,8 @@ public class Utils {
             float raw_x = Float.parseFloat(values[1].trim())*100;
             float raw_y = Float.parseFloat(values[2].trim())*100;
 
-            int x = Math.round(raw_x);
-            int y = Math.round(raw_y);
+            int x = Math.round(raw_x)*2;
+            int y = 1000-Math.round(raw_y)*2;
 
             NodeCoordinate coordinate = new NodeCoordinate(nodeName, x, y);
             allCoordinates.add(coordinate);

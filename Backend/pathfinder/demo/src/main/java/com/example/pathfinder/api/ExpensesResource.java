@@ -1,43 +1,40 @@
 package com.example.pathfinder.api;
 
-import com.example.pathfinder.vehicle.*;
+import com.example.pathfinder.utils.VehicleUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/expenses")
 public class ExpensesResource {
 
+
+
+
+
     public @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE)
-    String Expenses(@RequestParam(value ="distance")
+    ResponseEntity <Map<String, java.lang.Object>> Expenses(@RequestParam(value ="distance")
                     double distance,
                     @RequestParam(value ="vehicle_type") String vehicletype)
     {
 
-        //return la;// retorna o JSON para o usuario
+       try {
+           Map<String, Object> travelData = VehicleUtils.gettraveldata(distance,vehicletype);
+
+
+           return (ResponseEntity<Map<String, Object>>) travelData;// retorna o JSON para o usuario
+
+       }catch (IllegalArgumentException e) {
+           return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid param");
+
+       }
         return null;
     }
-    private int getFuelcomsumption(double distance, String vehicletype){
-        /*
-       Object<T> selectedvehicle = null;
-        switch (vehicletype){
-            case "minibus":
-                selectedvehicle = minibus;
-            case "bus":
-                selectedvehicle = bus;
-            case "car":
-                selectedvehicle = car;
-            case "motorcycle":
-                selectedvehicle = motorcycle;
-            case "truck":
-                selectedvehicle = truck;
-            default:
-                raise Invalidvalue;
-        }
-        gasexpend = distance/ selectedvehicle.getFuelconsumption;*/
 
-        return 0;
-    }
 
 }
 

@@ -15,7 +15,7 @@ public class ExpensesResource {
 
 
 
-
+/*
     public @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity <Map<String, java.lang.Object>> Expenses(@RequestParam(value ="distance")
                     double distance,
@@ -35,6 +35,6 @@ public class ExpensesResource {
         return null;
     }
 
-
+*/
 }
 

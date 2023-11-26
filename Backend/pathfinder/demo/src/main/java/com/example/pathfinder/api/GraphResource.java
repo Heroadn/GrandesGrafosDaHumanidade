@@ -20,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/graph")
 public class GraphResource {
+    @Autowired
     private GraphService graphService;
 
     @GetMapping("/test")

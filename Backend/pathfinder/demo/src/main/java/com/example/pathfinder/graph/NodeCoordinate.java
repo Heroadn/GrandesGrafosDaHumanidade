@@ -2,8 +2,8 @@ package com.example.pathfinder.graph;
 
 public class NodeCoordinate {
     private String name;
-    private Float x;
-    private Float y;
+    private Integer x;
+    private Integer y;
 
     public String getName() {
         return name;
@@ -13,23 +13,23 @@ public class NodeCoordinate {
         this.name = name;
     }
 
-    public float getX() {
+    public Integer getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(Integer x) {
         this.x = x;
     }
 
-    public float getY() {
+    public Integer getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(Integer y) {
         this.y = y;
     }
 
-    public NodeCoordinate(String name, float x, float y) {
+    public NodeCoordinate(String name, Integer x, Integer y) {
         this.name = name;
         this.x = x;
         this.y = y;

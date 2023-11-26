@@ -384,8 +384,8 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                   const source: string = element.name;
 
                   const node = this.layouts.nodes[source];
-                  this.layouts.nodes[source].x = (parseInt(element.x) * 200);
-                  this.layouts.nodes[source].y = (parseInt(element.y) * 200) - 500;
+                  this.layouts.nodes[source].x = parseInt(element.x);
+                  this.layouts.nodes[source].y = parseInt(element.y);
                 });
                 //this.layouts.nodes['PONTA ALTA'].x = 1
                 //this.layouts.nodes['PONTA ALTA'].y = 2

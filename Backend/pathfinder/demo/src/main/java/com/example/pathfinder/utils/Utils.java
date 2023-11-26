@@ -42,8 +42,11 @@ public class Utils {
     public static void insertNodeCoordinate(String[] values, LinkedList<NodeCoordinate> allCoordinates){
         if (values.length >= 3) {
             String nodeName = values[0].trim();
-            float x = Float.parseFloat(values[1].trim());
-            float y = Float.parseFloat(values[2].trim());
+            float raw_x = Float.parseFloat(values[1].trim())*100;
+            float raw_y = Float.parseFloat(values[2].trim())*100;
+
+            int x = Math.round(raw_x);
+            int y = Math.round(raw_y);
 
             NodeCoordinate coordinate = new NodeCoordinate(nodeName, x, y);
             allCoordinates.add(coordinate);

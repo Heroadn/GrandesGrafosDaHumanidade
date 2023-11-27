@@ -1,28 +1,24 @@
 package com.example.pathfinder.utils;
 
+import com.example.pathfinder.services.VehiclesService;
 import com.example.pathfinder.vehicle.Vehicle;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class VehicleUtils {
     static final double gas_price =  5.63;
     static final double diesel_price =  4.63;
-    static Vehicle car = new Vehicle(22,100,"gas","car");
-    static Vehicle truck = new Vehicle(22,100,"gas","truck");
-    static Vehicle bus = new Vehicle(22,100,"gas","bus");
-    static Vehicle motorcycle = new Vehicle(22,100,"gas","motocicle");
-    static Vehicle minibus = new Vehicle(22,100,"gas","minivan");
+    static VehiclesService vehiclesService = new VehiclesService();
 
     private static Vehicle getDesiredvehicle(String vehicletype){
-        return switch (vehicletype) {
-            case "minibus" -> minibus;
-            case "bus" -> bus;
-            case "car" -> car;
-            case "motorcycle" -> motorcycle;
-            case "truck" -> truck;
-            default -> throw new IllegalArgumentException("Usuario burro mandou o que nao devia!");
-        };
+        for (Vehicle vehicle : vehiclesService.getVehicles() ) {
+            if (vehicle.getName().toUpperCase(Locale.ROOT).contains(vehicletype.toUpperCase())) {
+                return vehicle;
+            }
+        }
+        return null;
     }
 
     public static Map<String, Object> gettraveldata(double distance, String vehicletype){

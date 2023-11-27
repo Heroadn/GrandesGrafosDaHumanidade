@@ -5,7 +5,9 @@ import com.example.pathfinder.graph.Edge;
 import com.example.pathfinder.graph.NodeCoordinate;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
+import java.util.function.Function;
 
 
 public class Utils {
@@ -13,8 +15,9 @@ public class Utils {
     public static LinkedList<NodeCoordinate> getCoordinatesFromCsv(String fileName) {
         LinkedList<NodeCoordinate> allCoordinates = new LinkedList<>();
 
-        executeFromCsv(fileName, null, allCoordinates);
-
+        Function<String[], Void> insertTemplate
+                = (values) -> insertNodeCoordinate(values, allCoordinates);
+        executeFromCsv(fileName, insertTemplate);
         return allCoordinates;
     }
 
@@ -22,13 +25,13 @@ public class Utils {
         System.out.println("Will read from the CSV file and generate a Graph");
         Graph main_graph = new Graph();
 
-        executeFromCsv(fileName, main_graph, null);
-
+        Function<String[], Void> insertTemplate
+                = (values) -> insertOnGraph(values, main_graph);
+        executeFromCsv(fileName, insertTemplate);
         return main_graph;
     }
 
-
-    public static void insertOnGraph(String[] values, Graph graph){
+    public static Void insertOnGraph(String[] values, Graph graph){
         if (values.length >= 3) {
             String source = values[0].trim();
             String destination = values[1].trim();
@@ -37,9 +40,11 @@ public class Utils {
             Edge edge = new Edge(source, destination, weight);
             graph.addEdge(edge);
         }
+
+        return null;
     }
 
-    public static void insertNodeCoordinate(String[] values, LinkedList<NodeCoordinate> allCoordinates){
+    public static Void insertNodeCoordinate(String[] values, LinkedList<NodeCoordinate> allCoordinates){
         if (values.length >= 3) {
             String nodeName = values[0].trim();
             float raw_x = Float.parseFloat(values[1].trim())*100;
@@ -51,24 +56,21 @@ public class Utils {
             NodeCoordinate coordinate = new NodeCoordinate(nodeName, x, y);
             allCoordinates.add(coordinate);
         }
+
+        return null;
     }
 
-    public static void executeFromCsv(String fileName, Graph graph, LinkedList<NodeCoordinate> allCoordinates){
+    public static void executeFromCsv(String fileName, Function<String[], Void> insert){
         try {
             InputStream inputStream
                     = Utils.class.getClassLoader().getResourceAsStream(fileName);
             BufferedReader reader
-                    = new BufferedReader(new InputStreamReader(inputStream));
+                    = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
-
-                if (graph != null) {
-                    insertOnGraph(values, graph);
-                } else if (allCoordinates != null) {
-                    insertNodeCoordinate(values, allCoordinates);
-                }
+                insert.apply(values);
             }
 
         } catch (IOException | NullPointerException | NumberFormatException e) {

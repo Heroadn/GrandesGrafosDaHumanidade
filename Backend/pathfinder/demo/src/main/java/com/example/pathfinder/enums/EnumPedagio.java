@@ -1,10 +1,6 @@
 package com.example.pathfinder.enums;
 
-import lombok.*;
-
 import java.util.Arrays;
-
-import static com.example.pathfinder.utils.Utils.ZEROD;
 
 public enum EnumPedagio {
 
@@ -34,15 +30,8 @@ public enum EnumPedagio {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
 }

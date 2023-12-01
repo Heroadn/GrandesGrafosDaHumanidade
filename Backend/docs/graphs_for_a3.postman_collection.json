@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ec77855f-31b2-4d94-b60a-cff2948400a2",
+		"_postman_id": "4930bb3e-25db-46df-a6f7-2efbd1767edd",
 		"name": "graphs_for_a3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27670126"
+		"_exporter_id": "14419196"
 	},
 	"item": [
 		{
@@ -135,6 +135,209 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expenses",
+			"item": [
+				{
+					"name": "expenses ok",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/expenses?distance=20&vehicle_type=truck",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "distance",
+									"value": "20"
+								},
+								{
+									"key": "vehicle_type",
+									"value": "truck"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "expenses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/expenses?distance=20&vehicle_type=truck",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"expenses"
+									],
+									"query": [
+										{
+											"key": "distance",
+											"value": "20"
+										},
+										{
+											"key": "vehicle_type",
+											"value": "truck"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST,GET,DELETE,POST,PUT,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Origen,Access-Control-Allow-Origin"
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "3600"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 01 Dec 2023 23:19:37 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"travel_cost:\": {\n        \"travelTimeHours\": 0.25,\n        \"numberOfDrivers\": 1,\n        \"foodExpenses\": 50,\n        \"fuelConsumption\": 800\n    },\n    \"fuel_consumption:\": 0.5\n}"
+						}
+					]
+				},
+				{
+					"name": "expenses 400",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/expenses?distance=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "distance",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "expenses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/expenses?distance=20",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"expenses"
+									],
+									"query": [
+										{
+											"key": "distance",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST,GET,DELETE,POST,PUT,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Origen,Access-Control-Allow-Origin"
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "3600"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 01 Dec 2023 23:18:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2023-12-01T23:18:53.291+00:00\",\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"path\": \"/expenses\"\n}"
+						}
+					]
 				}
 			]
 		}

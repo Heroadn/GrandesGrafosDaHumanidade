@@ -6,6 +6,7 @@ const PATH = 'info/vehicles'
 
 export class Veiculo {
     nome: string;
+    label: string;
     fuelType: string;
     kilometersPerLiter: string;
     speedInKmH: string;
@@ -16,13 +17,21 @@ export class Veiculo {
         fuelType: string,
         kilometersPerLiter: string,
         speedInKmH: string,
-        image: string) 
+        image: string,
+        label? : string) 
     {
         this.nome = nome
         this.fuelType = fuelType
         this.kilometersPerLiter = kilometersPerLiter;
         this.speedInKmH = speedInKmH;
         this.image = image
+
+        if (label == undefined){
+            this.label = this.nome
+        }
+        else{
+            this.label = label
+        }
     }
 }
 
@@ -34,7 +43,8 @@ export const useVeiculoService = defineStore('veiculoService', {
         getImage: (state) => state.prototype.image,
         getFuelType: (state) => state.prototype.image,
         getKilometersPerLiter: (state) => state.prototype.kilometersPerLiter,
-        getSpeedInKmH: (state) => state.prototype.speedInKmH
+        getSpeedInKmH: (state) => state.prototype.speedInKmH,
+        getLabel: (state) => state.prototype.label,
     },
     actions:
     {

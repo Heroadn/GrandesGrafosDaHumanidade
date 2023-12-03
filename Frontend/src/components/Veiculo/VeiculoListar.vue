@@ -7,7 +7,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
   <v-select
     label="Veiculo"
     :items="veiculosSearch"
-    item-title="nome"
+    item-title="label"
     @update:modelValue="onClick">
   </v-select>
 </template>
@@ -16,7 +16,14 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
   import { mapStores } from 'pinia'
   import { useVeiculoService } from '@/stores/veiculoService'
   import { Veiculo } from '@/stores/veiculoService'
- 
+  const vehiclesTranslated = {
+  "Bus": "Ônibus",
+  "Car": "Carro",
+  "Motorcycle": "Motocicleta",
+  "Truck": "Caminhão",
+  "Minibus": "Micro-ônibus",
+  };
+
 
   export default {
       computed:
@@ -55,7 +62,9 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
                 element.name, 
                 element.fuel_type, 
                 element.kilometersPerLiter, 
-                element.speedInKmH, "")
+                element.speedInKmH,
+                "",
+                vehiclesTranslated[element.name] || element.name)
             });
             
             this.defaultSelected = this.veiculos[0];
@@ -79,7 +88,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
         onClick(name: string)
         {
           const veiculo = this.veiculosSearch.filter( 
-            (element:any) => element.nome == name)
+            (element:any) => element.label == name)
 
           this.$emit('onClick', veiculo);
         }

@@ -14,11 +14,12 @@ public class VehiclesService {
     @Autowired
     public VehiclesService() {
         this.vehicles = new LinkedList<>();
-        this.vehicles.add(new Vehicle(30, 90, "Diesel", "Bus"));
-        this.vehicles.add(new Vehicle(20, 100, "Gas", "Car"));
-        this.vehicles.add(new Vehicle(25, 90, "Gas", "Minibus"));
-        this.vehicles.add(new Vehicle(10, 80, "Gas", "Motorcycle"));
-        this.vehicles.add(new Vehicle(40, 80, "Diesel", "Truck"));
+        //fuelconsumption is in km/l (kilometers per liter)
+        this.vehicles.add(new Vehicle(2.5, 90, "Diesel", "Bus"));
+        this.vehicles.add(new Vehicle(13, 100, "Gas", "Car"));
+        this.vehicles.add(new Vehicle(10, 90, "Gas", "Minibus"));
+        this.vehicles.add(new Vehicle(40, 80, "Gas", "Motorcycle"));
+        this.vehicles.add(new Vehicle(1.5, 80, "Diesel", "Truck"));
     }
 
     public LinkedList<Vehicle> getVehicles() {

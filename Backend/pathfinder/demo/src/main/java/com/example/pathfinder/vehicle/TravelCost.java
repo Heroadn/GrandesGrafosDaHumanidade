@@ -2,20 +2,20 @@ package com.example.pathfinder.vehicle;
 
 public class TravelCost {
     public double totalFuelConsumption;
-    public double carFuelConsumption;
+    public double fuelConsumptionPrice;
     public double travelTimeHours;
     public double numberOfDrivers;
     public double foodExpenses;
 
     public TravelCost(
             double totalFuelConsumption,
-            double carFuelConsumption,
+            double fuelConsumptionPrice,
             double travelTimeHours,
             double numberOfDrivers,
             double foodExpenses)
     {
         this.totalFuelConsumption = totalFuelConsumption;
-        this.carFuelConsumption = carFuelConsumption;
+        this.fuelConsumptionPrice = fuelConsumptionPrice;
         this.travelTimeHours = travelTimeHours;
         this.numberOfDrivers = numberOfDrivers;
         this.foodExpenses = foodExpenses;
@@ -29,12 +29,12 @@ public class TravelCost {
         this.totalFuelConsumption = totalFuelConsumption;
     }
 
-    public double getCarFuelConsumption() {
-        return carFuelConsumption;
+    public double getFuelConsumptionPrice() {
+        return fuelConsumptionPrice;
     }
 
-    public void setCarFuelConsumption(double carFuelConsumption) {
-        this.carFuelConsumption = carFuelConsumption;
+    public void setFuelConsumptionPrice(double fuelConsumptionPrice) {
+        this.fuelConsumptionPrice = fuelConsumptionPrice;
     }
 
     public double getTravelTimeHours() {

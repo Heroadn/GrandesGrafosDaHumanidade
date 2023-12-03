@@ -118,6 +118,41 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                   </v-col>
                 </v-row>
                 
+                <v-row>
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-cash
+                    </v-icon>
+                  </v-col>
+
+                  <v-col>
+                    R${{ travelCost.fuelConsumptionPrice }}
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-currency-brl
+                    </v-icon>
+                  </v-col>
+                  
+                  <v-col>
+                    <v-row>
+                      R${{ travelCost.foodExpenses }}
+                    </v-row>
+                    <v-row>
+                      R${{ travelCost.fuelConsumptionPrice }}
+                    </v-row>
+                    <v-row>
+                      <v-divider></v-divider>
+                    </v-row>
+                    <v-row>
+                      R${{ travelCost.fuelConsumptionPrice + travelCost.foodExpenses }}
+                    </v-row>
+                  </v-col>
+                </v-row>
+               
               </v-card-text>
             </v-card-actions>
           </v-card>
@@ -484,7 +519,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               result.numberOfDrivers,
               result.foodExpenses,
               result.totalFuelConsumption,
-              result.carFuelConsumption);
+              result.fuelConsumptionPrice);
           }, 
           failedRes => {})
         },

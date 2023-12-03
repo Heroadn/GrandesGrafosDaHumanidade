@@ -55,15 +55,61 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           </v-menu>
         </v-row>
         <v-row>
-          <v-card height="25vh" 
+          <v-card height="50vh" 
             style="overflow: hidden;margin-left: 1vh;margin-top: 1vh">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-card-text>
-                <v-btn
-                color="black"
-                icon="mdi-cash"/>
-                {{  }} 
+                <v-row>
+                  <v-btn
+                  size="10vh"
+                  class="rounded-circle"
+                  color="black"
+                  icon="mdi-cash">
+                    {{ travelCost.totalFuelConsumption }}
+                  </v-btn>
+                </v-row>
+                
+                <v-row>
+                  <v-btn
+                  size="10vh"
+                  class="rounded-circle"
+                  color="black"
+                  icon="mdi-cash">
+                    {{ travelCost.carFuelConsumption }}
+                  </v-btn>
+                </v-row>
+
+                <v-row>
+                  <v-btn
+                  size="10vh"
+                  class="rounded-circle"
+                  color="black"
+                  icon="mdi-cash">
+                    {{ travelCost.foodExpenses }}
+                  </v-btn>
+                </v-row>
+
+                <v-row>
+                  <v-btn
+                  size="10vh"
+                  class="rounded-circle"
+                  color="black"
+                  icon="mdi-cash">
+                    {{ travelCost.numberOfDrivers }}
+                  </v-btn>
+                </v-row>
+                
+                <v-row>
+                  <v-btn
+                  size="10vh"
+                  class="rounded-circle"
+                  color="black"
+                  icon="mdi-cash">
+                    {{ travelCost.travelTimeHours }}
+                  </v-btn>
+                </v-row>
+                
               </v-card-text>
             </v-card-actions>
           </v-card>
@@ -347,9 +393,9 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           red: 0,
           green: 0,
           blue: 0,
-          veiculo: {nome: 'Car'},
+          veiculo: {nome: 'Selecione um veiculo'},
           shortestDistance: '',
-          travelCost: new TravelCost(0,0,0,0)
+          travelCost: new TravelCost(0,0,0,0,0)
         };
       },
       async mounted() {
@@ -424,14 +470,13 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               veiculo), 
           successRes => 
           { 
-            let result = successRes
-            //this.travelCost = new TravelCost(
-            //  result.travelTimeHours,
-            //  result.numberOfDrivers,
-            //  result.foodExpenses,
-            //  result.fuelConsumption);
-            //console.log("TESTE1", this.travelCost)
-            console.log("TESTE2", result)
+            let result = successRes.data
+            this.travelCost = new TravelCost(
+              result.travelTimeHours,
+              result.numberOfDrivers,
+              result.foodExpenses,
+              result.totalFuelConsumption,
+              result.carFuelConsumption);
           }, 
           failedRes => {})
         },

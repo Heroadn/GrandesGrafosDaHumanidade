@@ -21,18 +21,21 @@ export class TravelCost
     public travelTimeHours: any; 
     public numberOfDrivers: any; 
     public foodExpenses: any;
-    public fuelConsumption: any;
+    public totalFuelConsumption: any;
+    public carFuelConsumption: any;
 
     constructor(
         travelTimeHours: any, 
         numberOfDrivers: any, 
         foodExpenses: any, 
-        fuelConsumption: any)
+        totalFuelConsumption: any,
+        carFuelConsumption: any)
     {
       this.travelTimeHours = travelTimeHours;
       this.numberOfDrivers = numberOfDrivers;
       this.foodExpenses    = foodExpenses;
-      this.fuelConsumption = fuelConsumption;
+      this.totalFuelConsumption = totalFuelConsumption;
+      this.carFuelConsumption = carFuelConsumption;
     }
 }
 

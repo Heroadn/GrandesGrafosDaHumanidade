@@ -44,10 +44,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               <v-spacer></v-spacer>
                 <v-card-text>
                     <MapaPesquisar @searchResults="update"/>
-                    <VeiculoListar />
-                    <v-slider label="Combustivel"></v-slider>
-                    <v-slider label="Motoristas "></v-slider>
-                    <v-slider label="Alimentação"></v-slider>
+                    <VeiculoListar @onClick="(value) => veiculo = value"/>
                 </v-card-text>
 
               <v-card-actions>
@@ -58,8 +55,21 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           </v-menu>
         </v-row>
         <v-row>
+          <v-card height="25vh" 
+            style="overflow: hidden;margin-left: 1vh;margin-top: 1vh">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-card-text>
+                <v-btn
+                color="black"
+                icon="mdi-cash"/>
+                {{  }} 
+              </v-card-text>
+            </v-card-actions>
+          </v-card>
+        </v-row>
+        <v-row v-if="false">
           <v-menu
-            v-if="false"
             v-model="menuInfo"
             :close-on-content-click="false"
             location="end"
@@ -101,7 +111,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
             </v-card>
           </v-menu>
         </v-row>
-        <v-row>
+        <v-row v-if="false">
           <v-menu
             v-model="menuConfig"
             :close-on-content-click="false"
@@ -146,6 +156,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
 
   <v-network-graph
         class="graph"
+        ref="graph"
         :nodes="nodes"
         :edges="edges"
         :layouts="layouts"
@@ -169,7 +180,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
   import { mapStores } from 'pinia'
   import type * as vNG from "v-network-graph"
 
-  import { Trajeto, useTrajetoService } from '@/stores/trajetoService'
+  import { Trajeto, TravelCost, useTrajetoService } from '@/stores/trajetoService'
   import type { AxiosResponse } from 'axios';
 
   import { ForceLayout } from "v-network-graph/lib/force-layout"
@@ -239,10 +250,18 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
     },
   }
 
+  const graph: any = ref<vNG.Instance>()
+
   export default {
       computed:
       {
         ...mapStores(useTrajetoService)
+      },
+      watch: { 
+        veiculo: function(newVal, oldVal) { // watch it
+          if(this.isSearched)
+            this.requestExpenses(this.shortestDistance, newVal[0].nome)
+        },
       },
       data: () =>  
       {
@@ -324,9 +343,13 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           menuMapa: true,
           menuInfo: false,
           menuConfig: false,
+          isSearched: false,
           red: 0,
           green: 0,
-          blue: 0
+          blue: 0,
+          veiculo: {nome: 'Car'},
+          shortestDistance: '',
+          travelCost: new TravelCost(0,0,0,0)
         };
       },
       async mounted() {
@@ -340,6 +363,8 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           
           await this.loadNodes();
           await this.loadCoordinates();
+          graph.value.panToCenter();
+
           this.isLoaded = true; 
         },
         async loadNodes()
@@ -392,6 +417,24 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               }, 
             failedRes => {})
         },
+        async requestExpenses(distance: string, veiculo: string)
+        {
+          this.request(await this.trajetoServiceStore.getExpense(
+              distance, 
+              veiculo), 
+          successRes => 
+          { 
+            let result = successRes
+            //this.travelCost = new TravelCost(
+            //  result.travelTimeHours,
+            //  result.numberOfDrivers,
+            //  result.foodExpenses,
+            //  result.fuelConsumption);
+            //console.log("TESTE1", this.travelCost)
+            console.log("TESTE2", result)
+          }, 
+          failedRes => {})
+        },
         async request(
           response: AxiosResponse<any, any>, 
           success : (response: AxiosResponse<any, any>) => void,
@@ -405,8 +448,12 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
         },
         update(trajeto: Trajeto)
         {
+          this.shortestDistance = trajeto.shortestDistance; 
+          this.requestExpenses(this.shortestDistance, this.veiculo.nome);
           this.trace(trajeto)
+
           this.overlayMapMenu = false;
+          this.isSearched = true;
         },
         trace(trajeto: Trajeto)
         {

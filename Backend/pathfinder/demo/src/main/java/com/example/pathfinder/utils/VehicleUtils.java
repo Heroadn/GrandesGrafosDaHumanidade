@@ -1,6 +1,7 @@
 package com.example.pathfinder.utils;
 
 import com.example.pathfinder.services.VehiclesService;
+import com.example.pathfinder.vehicle.TravelCost;
 import com.example.pathfinder.vehicle.Vehicle;
 
 import java.util.HashMap;
@@ -21,47 +22,42 @@ public class VehicleUtils {
         return null;
     }
 
-    public static Map<String, Object> gettraveldata(double distance, String vehicletype){
+    public static TravelCost gettraveldata(double distance, String vehicletype){
         Map<String, Object> data = new HashMap<>();
         Vehicle selectedvehicle = getDesiredvehicle(vehicletype);
-
-        data.put("fuel_consumption:",distance/ selectedvehicle.getFuelconsumption());
-
-        data.put("travel_cost:",getTravelcost(distance, selectedvehicle));
-
-
-
-
-
-        return data;
+        //data.put("fuel_consumption:", );
+        //data.put("travel_cost:",getTravelcost(distance, selectedvehicle));
+        return getTravelcost(distance, selectedvehicle);
     }
 
 
-    private static Map<String, Double> getTravelcost(double distance,Vehicle vehicle ){
+    private static TravelCost getTravelcost(double distance, Vehicle vehicle ){
         // Fictional data, adjust as needed
         double foodCostPerDayPerDriver = 50.0;
-        int maxHoursPerDriver = 4;
+        double maxHoursPerDriver = 4;
 
-        // Calculate fuel expenses
-        double fuelConsumption = vehicle.getFuelconsumption() * distance;
+        // car fuel consumption over variable distance?
+        double carFuelConsumption   = distance / vehicle.getFuelconsumption();
+
+        // total fuel consumption?
+        double totalFuelConsumption = vehicle.getFuelconsumption() * distance;
 
         // Calculate travel time
         double travelTimeHours = distance / vehicle.getMaxspeed();
 
         // Calculate the number of drivers needed
-        int numberOfDrivers = travelTimeHours > maxHoursPerDriver ? 2 : 1;
+        double numberOfDrivers = travelTimeHours > maxHoursPerDriver ? 2 : 1;
 
         // Calculate food expenses
         double foodExpenses = foodCostPerDayPerDriver * numberOfDrivers;
 
         // Create and return the results map
-        Map<String, Double> results = new HashMap<>();
-        results.put("fuelConsumption", fuelConsumption);
-        results.put("travelTimeHours", travelTimeHours);
-        results.put("numberOfDrivers", (double) numberOfDrivers);
-        results.put("foodExpenses", foodExpenses);
-
-        return results;
+        return new TravelCost(
+                totalFuelConsumption,
+                carFuelConsumption,
+                travelTimeHours,
+                numberOfDrivers,
+                foodExpenses);
     }
 
     private VehicleUtils() {

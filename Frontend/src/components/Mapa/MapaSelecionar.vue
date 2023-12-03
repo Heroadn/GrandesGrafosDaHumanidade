@@ -24,7 +24,7 @@
         target:  {
           type: String,
           default: ''
-        },
+        }
       },
       watch: { 
         source: function(newVal, oldVal) { // watch it

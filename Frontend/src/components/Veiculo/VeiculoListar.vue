@@ -29,6 +29,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
           veiculos: [] as Veiculo[],
           veiculosSearch: [] as Array<Veiculo>,
           veiculosSelect: [] as string[],
+          defaultSelected: {} as Veiculo,
           isLoaded: false,
         };
       },
@@ -56,7 +57,8 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
                 element.kilometersPerLiter, 
                 element.speedInKmH, "")
             });
-
+            
+            this.defaultSelected = this.veiculos[0];
             this.isLoaded = true;
           }
 

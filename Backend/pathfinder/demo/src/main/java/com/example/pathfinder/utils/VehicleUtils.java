@@ -55,7 +55,7 @@ public class VehicleUtils {
         return new TravelCost(
                 totalFuelConsumption,
                 carFuelConsumption,
-                travelTimeHours,
+                 travelTimeHours,
                 numberOfDrivers,
                 foodExpenses);
     }

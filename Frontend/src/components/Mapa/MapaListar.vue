@@ -39,7 +39,6 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               </v-btn>
             </template>
 
-
             <v-card height="auto" style="overflow: hidden;">
               <v-spacer></v-spacer>
                 <v-card-text>
@@ -55,59 +54,68 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           </v-menu>
         </v-row>
         <v-row>
-          <v-card height="50vh" 
+          <v-card
             style="overflow: hidden;margin-left: 1vh;margin-top: 1vh">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-card-text>
                 <v-row>
-                  <v-btn
-                  size="10vh"
-                  class="rounded-circle"
-                  color="black"
-                  icon="mdi-cash">
-                    {{ travelCost.totalFuelConsumption }}
-                  </v-btn>
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-fuel
+                    </v-icon>
+                  </v-col>
+
+                  <v-col>
+                    {{ travelCost.totalFuelConsumption }}L
+                  </v-col>
                 </v-row>
                 
                 <v-row>
-                  <v-btn
-                  size="10vh"
-                  class="rounded-circle"
-                  color="black"
-                  icon="mdi-cash">
-                    {{ travelCost.carFuelConsumption }}
-                  </v-btn>
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-map
+                    </v-icon>
+                  </v-col>
+                  <v-col>
+                    {{ shortestDistance }}km
+                  </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-btn
-                  size="10vh"
-                  class="rounded-circle"
-                  color="black"
-                  icon="mdi-cash">
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-food
+                    </v-icon>
+                  </v-col>
+
+                  <v-col>
                     {{ travelCost.foodExpenses }}
-                  </v-btn>
+                  </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-btn
-                  size="10vh"
-                  class="rounded-circle"
-                  color="black"
-                  icon="mdi-cash">
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-account-tie-hat
+                    </v-icon>
+                  </v-col>
+
+                  <v-col>
                     {{ travelCost.numberOfDrivers }}
-                  </v-btn>
+                  </v-col>
                 </v-row>
                 
                 <v-row>
-                  <v-btn
-                  size="10vh"
-                  class="rounded-circle"
-                  color="black"
-                  icon="mdi-cash">
-                    {{ travelCost.travelTimeHours }}
-                  </v-btn>
+                  <v-col>
+                    <v-icon size="4.2vh" color="red">
+                      mdi-timer-alert-outline
+                    </v-icon>
+                  </v-col>
+
+                  <v-col>
+                    {{ travelCost.travelTimeHours.toFixed(2) }}
+                  </v-col>
                 </v-row>
                 
               </v-card-text>
@@ -393,7 +401,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           red: 0,
           green: 0,
           blue: 0,
-          veiculo: {nome: 'Selecione um veiculo'},
+          veiculo: {nome: 'Car'},
           shortestDistance: '',
           travelCost: new TravelCost(0,0,0,0,0)
         };

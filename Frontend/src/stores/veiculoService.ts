@@ -18,20 +18,14 @@ export class Veiculo {
         kilometersPerLiter: string,
         speedInKmH: string,
         image: string,
-        label? : string) 
+        label : string) 
     {
         this.nome = nome
         this.fuelType = fuelType
         this.kilometersPerLiter = kilometersPerLiter;
         this.speedInKmH = speedInKmH;
         this.image = image
-
-        if (label == undefined){
-            this.label = this.nome
-        }
-        else{
-            this.label = label
-        }
+        this.label = label
     }
 }
 

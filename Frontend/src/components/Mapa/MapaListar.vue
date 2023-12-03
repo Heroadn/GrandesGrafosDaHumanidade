@@ -90,7 +90,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                   </v-col>
 
                   <v-col>
-                    {{ travelCost.foodExpenses }}
+                    R${{ travelCost.foodExpenses }}
                   </v-col>
                 </v-row>
 
@@ -114,7 +114,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                   </v-col>
 
                   <v-col>
-                    {{ travelCost.travelTimeHours.toFixed(2) }}
+                    {{ travelCost.travelTimeHours.toFixed(2) }}h
                   </v-col>
                 </v-row>
                 

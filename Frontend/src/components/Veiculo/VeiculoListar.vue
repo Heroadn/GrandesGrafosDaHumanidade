@@ -22,7 +22,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
   "Motorcycle": "Motocicleta",
   "Truck": "Caminhão",
   "Minibus": "Micro-ônibus",
-  };
+  } as any;
 
 
   export default {
@@ -64,7 +64,7 @@ import VeiculoPesquisar from './VeiculoPesquisar.vue';
                 element.kilometersPerLiter, 
                 element.speedInKmH,
                 "",
-                vehiclesTranslated[element.name] || element.name)
+                vehiclesTranslated[element.name])
             });
             
             this.defaultSelected = this.veiculos[0];

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4930bb3e-25db-46df-a6f7-2efbd1767edd",
+		"_postman_id": "f1a38385-2a34-4265-a6b7-35253168322b",
 		"name": "graphs_for_a3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "14419196"
+		"_exporter_id": "27670126"
 	},
 	"item": [
 		{
@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/graph/shortest_path/BOM JARDIM DA SERRA/BOCAINA DO SUL",
+							"raw": "http://localhost:8080/graph/shortest_path/URUBICI/PONTE ALTA",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -24,8 +24,8 @@
 							"path": [
 								"graph",
 								"shortest_path",
-								"BOM JARDIM DA SERRA",
-								"BOCAINA DO SUL"
+								"URUBICI",
+								"PONTE ALTA"
 							]
 						}
 					},
@@ -147,7 +147,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/expenses?distance=20&vehicle_type=truck",
+							"raw": "http://localhost:8080/expenses?distance=40&vehicle_type=car&path=BOCAINA DO SUL,LAGES,CORREIA PINTO,PONTE ALTA,PONTE ALTA DO NORTE,SANTA CECÍLIA",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -159,11 +159,15 @@
 							"query": [
 								{
 									"key": "distance",
-									"value": "20"
+									"value": "40"
 								},
 								{
 									"key": "vehicle_type",
-									"value": "truck"
+									"value": "car"
+								},
+								{
+									"key": "path",
+									"value": "BOCAINA DO SUL,LAGES,CORREIA PINTO,PONTE ALTA,PONTE ALTA DO NORTE,SANTA CECÍLIA"
 								}
 							]
 						}

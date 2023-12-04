@@ -15,9 +15,9 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           <v-btn
           size="10vh"
           class="rounded-circle"
-          @click="resetar">
+          @click="graph?.panToCenter()">
             <v-icon size="4.2vh">
-              mdi-redo
+              mdi-image-filter-center-focus
             </v-icon>
           </v-btn>
         </v-row>
@@ -42,7 +42,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
             <v-card height="auto" style="overflow: hidden;">
               <v-spacer></v-spacer>
                 <v-card-text>
-                    <MapaPesquisar @searchResults="update"/>
+                    <MapaPesquisar @searchResults="receiveTrajeto"/>
                     <VeiculoListar @onClick="(value) => veiculo = value"/>
                 </v-card-text>
 
@@ -55,7 +55,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
         </v-row>
         <v-row>
           <v-card
-            style="overflow: hidden;margin-left: 1vh;margin-top: 1vh">
+            style="overflow: hidden;margin-left: 1vh;margin-top: 1vh;">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-card-text>
@@ -73,24 +73,15 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                 
                 <v-row>
                   <v-col>
-                    <v-icon size="4.2vh" color="red">
+                    <!--<v-icon size="4.2vh" color="red">
                       mdi-map
-                    </v-icon>
-                  </v-col>
-                  <v-col>
-                    {{ shortestDistance }}km
-                  </v-col>
-                </v-row>
-
-                <v-row>
-                  <v-col>
+                    </v-icon>-->
                     <v-icon size="4.2vh" color="red">
-                      mdi-food
+                      mdi-road
                     </v-icon>
                   </v-col>
-
                   <v-col>
-                    R${{ travelCost.foodExpenses }}
+                    {{ trajeto.shortestDistance }}km
                   </v-col>
                 </v-row>
 
@@ -117,38 +108,56 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                     {{ travelCost.travelTimeHours.toFixed(2) }}h
                   </v-col>
                 </v-row>
-                
-                <v-row>
-                  <v-col>
-                    <v-icon size="4.2vh" color="red">
-                      mdi-cash
-                    </v-icon>
-                  </v-col>
-
-                  <v-col>
-                    R${{ travelCost.fuelConsumptionPrice }}
-                  </v-col>
-                </v-row>
 
                 <v-row>
                   <v-col>
-                    <v-icon size="4.2vh" color="red">
-                      mdi-currency-brl
-                    </v-icon>
-                  </v-col>
-                  
-                  <v-col>
-                    <v-row>
-                      R${{ travelCost.foodExpenses }}
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-icon size="3.5vh" color="black">
+                        mdi-food
+                        </v-icon>
+                      </v-col>
+                      <v-col>
+                        R${{ travelCost.foodExpenses }}
+                      </v-col>
                     </v-row>
-                    <v-row>
-                      R${{ travelCost.fuelConsumptionPrice }}
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-icon size="3.5vh" color="black">
+                        mdi-fuel
+                        </v-icon>
+                      </v-col>
+
+                      <v-col>
+                        R${{ travelCost.totalRoadFeesCost }}
+                      </v-col>
                     </v-row>
-                    <v-row>
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-icon size="3.5vh" color="black">
+                        mdi-railroad-light
+                      </v-icon>
+                      </v-col>
+                      <v-col>
+                        R${{ travelCost.fuelConsumptionPrice }}
+                      </v-col>
+                      
+                    </v-row>
+                    <v-row no-gutters>
                       <v-divider></v-divider>
                     </v-row>
-                    <v-row>
-                      R${{ travelCost.fuelConsumptionPrice + travelCost.foodExpenses }}
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-icon size="4.2vh" color="red">
+                          mdi-currency-brl
+                        </v-icon>
+                      </v-col>
+                      <v-col>
+                        R${{ (
+                          travelCost.fuelConsumptionPrice + 
+                          travelCost.foodExpenses + 
+                          travelCost.totalRoadFeesCost).toFixed(2) }}
+                      </v-col>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -262,7 +271,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
   <MapaSelecionar 
       :source="caminhoSelecionado.source"
       :target="caminhoSelecionado.target"
-      @searchResults="update"/>
+      @searchResults="receiveTrajeto"/>
 </template>
 
 <script lang="ts">
@@ -271,9 +280,6 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
 
   import { Trajeto, TravelCost, useTrajetoService } from '@/stores/trajetoService'
   import type { AxiosResponse } from 'axios';
-
-  import { ForceLayout } from "v-network-graph/lib/force-layout"
-  import type { ForceNodeDatum, ForceEdgeDatum } from "v-network-graph/lib/force-layout"
   import { ref, type Ref, reactive } from 'vue';
 
   interface Node extends vNG.Node {
@@ -348,8 +354,12 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
       },
       watch: { 
         veiculo: function(newVal, oldVal) { // watch it
+          const veiculo = newVal[0].nome 
+
           if(this.isSearched)
-            this.requestExpenses(this.shortestDistance, newVal[0].nome)
+            this.requestExpenses(
+              this.trajeto,
+              veiculo)
         },
       },
       data: () =>  
@@ -372,54 +382,54 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
             view: {
               scalingObjects: true
             },
-              node: {
-                normal: {
-                  type: "circle",
-                  color: (node: any) => 'black',
-                },
-                hover: {
-                  radius: (node: any) => node.size + 2,
-                  color: (node: any) => node.color,
-                },
-                selectable: true,
-                label: {
+            node: {
+              normal: {
+                type: "circle",
+                color: (node: any) => 'black',
+              },
+              hover: {
+                radius: (node: any) => node.size + 2,
+                color: (node: any) => node.color,
+              },
+              selectable: true,
+              label: {
+                visible: true,
+                direction: "center",
+                directionAutoAdjustment: true,
+                fontFamily: undefined,
+                fontSize: 40,
+                color: "#FFFFFF",
+                background: {
                   visible: true,
-                  direction: "center",
-                  directionAutoAdjustment: true,
-                  fontFamily: undefined,
-                  fontSize: 18,
-                  color: "#FFFFFF",
-                  background: {
-                    visible: true,
-                    color: "#000000FF",
-                    padding: {
-                      vertical: 1,
-                      horizontal: 4,
-                    },
-                    borderRadius: 2,
+                  color: "#000000FF",
+                  padding: {
+                    vertical: 1,
+                    horizontal: 4,
                   },
-                },
-                focusring: {
-                  color: "darkgray",
+                  borderRadius: 2,
                 },
               },
-              edge: {
-                normal: {
-                  color: (edge: any) => "black",
-                  dasharray: (edge: any) =>  (edge.dashed ? "0" : "0")
-                },
-                marker: {
-                  source: { type: "arrow" },
-                },
-                margin: 4,
-                gap: 10,
-                keepOrder: "clock",
+              focusring: {
+                color: "darkgray",
               },
-              path: {
+            },
+            edge: {
+              normal: {
+                color: (edge: any) => "black",
+                dasharray: (edge: any) =>  (edge.dashed ? "0" : "0")
+              },
+              marker: {
+                source: { type: "arrow" },
+              },
+              margin: 4,
+              gap: 10,
+              keepOrder: "clock",
+            },
+            path: {
               visible: true,
               normal: {
                 width: 10,
-                color: (p: any) => "#FFFFFFDD",
+                color: (p: any) => "#FF0000DD",
               },
             },
           },
@@ -437,26 +447,24 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           green: 0,
           blue: 0,
           veiculo: {nome: 'Car'},
-          shortestDistance: '',
-          travelCost: new TravelCost(0,0,0,0,0)
+          travelCost: new TravelCost(),
+          trajeto: new Trajeto()
         };
       },
       async mounted() {
         await this.load();
-        this.isLoaded = true;
+        graph.value.panToCenter()  
       },
       methods: 
       {
         async load() 
         {
           
-          await this.loadNodes();
-          await this.loadCoordinates();
-          graph.value.panToCenter();
-
+          await this.requestNodes();
+          await this.requestCoordinates();
           this.isLoaded = true; 
         },
-        async loadNodes()
+        async requestNodes()
         {
           this.request(await this.trajetoServiceStore.allNodes(0), 
           successRes => 
@@ -487,29 +495,30 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
             }, 
           failedRes => {})
         },
-        async loadCoordinates()
+        async requestCoordinates()
         {
-        //adicionando coordenadas
-        this.request(await this.trajetoServiceStore.getCoordinates(), 
-            successRes => 
-              { 
-                let coordinates = successRes.data
-                coordinates.forEach((element:any) => {
-                  const source: string = element.name;
+          //adicionando coordenadas
+          this.request(await this.trajetoServiceStore.getCoordinates(), 
+              successRes => 
+                { 
+                  let coordinates = successRes.data
+                  coordinates.forEach((element:any) => {
+                    const source: string = element.name;
 
-                  const node = this.layouts.nodes[source];
-                  this.layouts.nodes[source].x = parseInt(element.x);
-                  this.layouts.nodes[source].y = parseInt(element.y);
-                });
-                //this.layouts.nodes['PONTA ALTA'].x = 1
-                //this.layouts.nodes['PONTA ALTA'].y = 2
-              }, 
-            failedRes => {})
+                    const node = this.layouts.nodes[source];
+                    this.layouts.nodes[source].x = parseInt(element.x) * 5;
+                    this.layouts.nodes[source].y = parseInt(element.y) * 5;
+                  });
+
+                  //this.layouts.nodes['PONTA ALTA'].x = 1
+                  //this.layouts.nodes['PONTA ALTA'].y = 2
+                }, 
+              failedRes => {})
         },
-        async requestExpenses(distance: string, veiculo: string)
+        async requestExpenses(trajeto: Trajeto, veiculo: string)
         {
           this.request(await this.trajetoServiceStore.getExpense(
-              distance, 
+              trajeto, 
               veiculo), 
           successRes => 
           { 
@@ -519,7 +528,9 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
               result.numberOfDrivers,
               result.foodExpenses,
               result.totalFuelConsumption,
-              result.fuelConsumptionPrice);
+              result.fuelConsumptionPrice,
+              result.roadFees,
+              result.totalRoadFeesCost);
           }, 
           failedRes => {})
         },
@@ -534,10 +545,13 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           else
             failed(response);
         },
-        update(trajeto: Trajeto)
+        receiveTrajeto(trajeto: Trajeto)
         {
-          this.shortestDistance = trajeto.shortestDistance; 
-          this.requestExpenses(this.shortestDistance, this.veiculo.nome);
+          this.trajeto = trajeto;
+
+          this.requestExpenses(
+            this.trajeto,
+            this.veiculo.nome);
           this.trace(trajeto)
 
           this.overlayMapMenu = false;
@@ -563,7 +577,8 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
             id = source + '_'+ target
           }
           
-          this.paths[trajeto.shortestDistance] = {edges: result}
+          this.paths[trajeto.shortestDistance] = {edges: result, color: "#ff00ff66"}
+          console.log( this.paths)
         },
         addNode(
           node: {name: string, color: string, size: number}, 

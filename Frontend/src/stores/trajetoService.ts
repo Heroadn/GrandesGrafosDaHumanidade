@@ -8,8 +8,8 @@ export class Trajeto {
     public shortestPath: string[];
 
     constructor(
-        shortestDistance: string,
-        shortestPath: string[]) 
+        shortestDistance: string = "0",
+        shortestPath: string[] = []) 
     {
         this.shortestDistance = shortestDistance
         this.shortestPath = shortestPath
@@ -23,19 +23,25 @@ export class TravelCost
     public foodExpenses: any;
     public totalFuelConsumption: any;
     public fuelConsumptionPrice: any;
+    public roadFees: any;
+    public totalRoadFeesCost:any;
 
     constructor(
-        travelTimeHours: any, 
-        numberOfDrivers: any, 
-        foodExpenses: any, 
-        totalFuelConsumption: any,
-        fuelConsumptionPrice: any)
+        travelTimeHours: any = 0, 
+        numberOfDrivers: any = 0, 
+        foodExpenses: any = 0, 
+        totalFuelConsumption: any = 0,
+        fuelConsumptionPrice: any = 0,
+        roadFees: any = 0,
+        totalRoadFeesCost: any = 0)
     {
       this.travelTimeHours = travelTimeHours;
       this.numberOfDrivers = numberOfDrivers;
       this.foodExpenses    = foodExpenses;
       this.totalFuelConsumption = totalFuelConsumption;
       this.fuelConsumptionPrice = fuelConsumptionPrice;
+      this.roadFees = roadFees;
+      this.totalRoadFeesCost = totalRoadFeesCost;
     }
 }
 
@@ -59,10 +65,14 @@ export const useTrajetoService = defineStore('trajetoService', {
             const response = await instance.get(`http://${HOST}/${PATH}/shortest_path/${source}/${destination}`);
             return response;
         },
-        async getExpense(distance: string, vehicle: string)
+        async getExpense(trajeto: Trajeto, vehicle: string)
         {
-            //expenses?distance=10&vehicle_type=Car
-            const response = await instance.get(`http://${HOST}/expenses?distance=${distance}&vehicle_type=${vehicle}`);
+            //expenses?distance=10&vehicle_type=Car 
+            const paths = trajeto.shortestPath.reduce(
+              (a:any, b:any) => (a + ',' + b));
+
+            const distance = trajeto.shortestDistance;
+            const response = await instance.get(`http://${HOST}/expenses?distance=${distance}&vehicle_type=${vehicle}&path=${paths}`);
             return response;
         },
         async getCoordinates()

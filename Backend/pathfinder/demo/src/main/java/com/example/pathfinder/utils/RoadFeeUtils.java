@@ -28,9 +28,6 @@ public class RoadFeeUtils {
 
         for (String city: path){
             if (currentIndex <= pathLength-1){ //Checks if it's the last city of the path
-                System.out.println(city);
-                System.out.println(path.get(currentIndex+1));
-                System.out.println("#######");
                 if (city.equals(start) && path.get(currentIndex+1).equals(end)){
                     return true;
                 } else if (city.equals(end) && path.get(currentIndex+1).equals(start)) {

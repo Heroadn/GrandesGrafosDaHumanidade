@@ -39,4 +39,14 @@ public class RoadFeeUtils {
 
         return false;
     }
+
+    public static Double calculateTotalCost(LinkedList<RoadFee> roadFees) {
+        Double totalCost = 0.0;
+
+        for (RoadFee roadFee : roadFees) {
+            totalCost += roadFee.getCost();
+        }
+
+        return totalCost;
+    }
 }

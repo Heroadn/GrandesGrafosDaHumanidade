@@ -69,6 +69,8 @@ public class VehicleUtils {
         // Calculate road fees
         LinkedList<RoadFee> roadFees = RoadFeeUtils.getPathRoadFees(path, vehicle.getName());
 
+        double totalRoadFeesCost = RoadFeeUtils.calculateTotalCost(roadFees);
+
         // Create and return the results map
         return new TravelCost(
                 roundedTotalFuelConsumption,
@@ -76,7 +78,8 @@ public class VehicleUtils {
                 travelTimeHours,
                 numberOfDrivers,
                 foodExpenses,
-                roadFees);
+                roadFees,
+                totalRoadFeesCost);
     }
 
     private VehicleUtils() {

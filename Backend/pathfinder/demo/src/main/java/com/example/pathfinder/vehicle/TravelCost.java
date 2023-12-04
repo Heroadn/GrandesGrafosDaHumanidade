@@ -11,8 +11,8 @@ public class TravelCost {
     public double travelTimeHours;
     public double numberOfDrivers;
     public double foodExpenses;
-
     public LinkedList<RoadFee> roadFees;
+    public double totalRoadFeesCost;
 
     public TravelCost(
             double totalFuelConsumption,
@@ -20,7 +20,8 @@ public class TravelCost {
             double travelTimeHours,
             double numberOfDrivers,
             double foodExpenses,
-            LinkedList<RoadFee> roadFees)
+            LinkedList<RoadFee> roadFees,
+            double totalRoadFeesCost)
     {
         this.totalFuelConsumption = totalFuelConsumption;
         this.fuelConsumptionPrice = fuelConsumptionPrice;
@@ -28,6 +29,7 @@ public class TravelCost {
         this.numberOfDrivers = numberOfDrivers;
         this.foodExpenses = foodExpenses;
         this.roadFees = roadFees;
+        this.totalRoadFeesCost = totalRoadFeesCost;
     }
 
     public double getTotalFuelConsumption() {
@@ -73,4 +75,8 @@ public class TravelCost {
     public LinkedList<RoadFee> getRoadFees() { return roadFees; }
 
     public void setRoadFees(LinkedList<RoadFee> roadFees) {this.roadFees = roadFees; }
+
+    public double getTotalRoadFeesCost() {return totalRoadFeesCost; }
+
+    public void setTotalRoadFeesCost(double totalRoadFeesCost) {this.totalRoadFeesCost = totalRoadFeesCost; }
 }

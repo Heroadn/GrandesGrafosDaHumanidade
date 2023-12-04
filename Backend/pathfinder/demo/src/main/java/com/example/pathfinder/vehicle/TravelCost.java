@@ -1,5 +1,10 @@
 package com.example.pathfinder.vehicle;
 
+import java.util.LinkedList;
+import java.util.Map;
+
+import com.example.pathfinder.roadfee.RoadFee;
+
 public class TravelCost {
     public double totalFuelConsumption;
     public double fuelConsumptionPrice;
@@ -7,18 +12,22 @@ public class TravelCost {
     public double numberOfDrivers;
     public double foodExpenses;
 
+    public LinkedList<RoadFee> roadFees;
+
     public TravelCost(
             double totalFuelConsumption,
             double fuelConsumptionPrice,
             double travelTimeHours,
             double numberOfDrivers,
-            double foodExpenses)
+            double foodExpenses,
+            LinkedList<RoadFee> roadFees)
     {
         this.totalFuelConsumption = totalFuelConsumption;
         this.fuelConsumptionPrice = fuelConsumptionPrice;
         this.travelTimeHours = travelTimeHours;
         this.numberOfDrivers = numberOfDrivers;
         this.foodExpenses = foodExpenses;
+        this.roadFees = roadFees;
     }
 
     public double getTotalFuelConsumption() {
@@ -60,4 +69,8 @@ public class TravelCost {
     public void setFoodExpenses(double foodExpenses) {
         this.foodExpenses = foodExpenses;
     }
+
+    public LinkedList<RoadFee> getRoadFees() { return roadFees; }
+
+    public void setRoadFees(LinkedList<RoadFee> roadFees) {this.roadFees = roadFees; }
 }

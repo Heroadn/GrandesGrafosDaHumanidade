@@ -1,12 +1,14 @@
 package com.example.pathfinder.utils;
 
+import com.example.pathfinder.roadfee.RoadFee;
 import com.example.pathfinder.services.VehiclesService;
 import com.example.pathfinder.vehicle.TravelCost;
 import com.example.pathfinder.vehicle.Vehicle;
 
-import java.util.HashMap;
+import com.example.pathfinder.roadfee.RoadFee;
+
+import java.util.LinkedList;
 import java.util.Locale;
-import java.util.Map;
 
 public class VehicleUtils {
     static final double gas_price =  5.63;
@@ -22,12 +24,11 @@ public class VehicleUtils {
         return null;
     }
 
-    public static TravelCost getTravelData(double distance, String vehicleType){
-        Map<String, Object> data = new HashMap<>();
+    public static TravelCost getTravelData(double distance, String vehicleType, LinkedList<String> path){
         Vehicle selectedVehicle = getDesiredvehicle(vehicleType);
 
         if (selectedVehicle != null)
-            return getTravelcost(distance, selectedVehicle);
+            return getTravelcost(distance, selectedVehicle, path);
         else
             return null;
     }
@@ -37,7 +38,7 @@ public class VehicleUtils {
         return Math.round(value * referenceForDecimals) / referenceForDecimals;
     }
 
-    private static TravelCost getTravelcost(double distance, Vehicle vehicle ){
+    private static TravelCost getTravelcost(double distance, Vehicle vehicle, LinkedList<String> path){
         // Fictional data, adjust as needed
         double foodCostPerDayPerDriver = 50.0;
         double maxHoursPerDriver = 4;
@@ -65,13 +66,17 @@ public class VehicleUtils {
         // Calculate food expenses
         double foodExpenses = foodCostPerDayPerDriver * numberOfDrivers;
 
+        // Calculate road fees
+        LinkedList<RoadFee> roadFees = RoadFeeUtils.getPathRoadFees(path, vehicle.getName());
+
         // Create and return the results map
         return new TravelCost(
                 roundedTotalFuelConsumption,
                 fuelConsumptionPrice,
                 travelTimeHours,
                 numberOfDrivers,
-                foodExpenses);
+                foodExpenses,
+                roadFees);
     }
 
     private VehicleUtils() {

@@ -17,7 +17,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           class="rounded-circle"
           @click="resetar">
             <v-icon size="4.2vh">
-              mdi-image-filter-center-focus
+              mdi-reload
             </v-icon>
           </v-btn>
         </v-row>

@@ -15,7 +15,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
           <v-btn
           size="10vh"
           class="rounded-circle"
-          @click="graph?.panToCenter()">
+          @click="resetar">
             <v-icon size="4.2vh">
               mdi-image-filter-center-focus
             </v-icon>
@@ -124,7 +124,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                     <v-row no-gutters>
                       <v-col>
                         <v-icon size="3.5vh" color="black">
-                        mdi-fuel
+                          mdi-railroad-light
                         </v-icon>
                       </v-col>
 
@@ -135,7 +135,7 @@ import VeiculoListar from '@/components/Veiculo/VeiculoListar.vue';
                     <v-row no-gutters>
                       <v-col>
                         <v-icon size="3.5vh" color="black">
-                        mdi-railroad-light
+                        mdi-fuel
                       </v-icon>
                       </v-col>
                       <v-col>
